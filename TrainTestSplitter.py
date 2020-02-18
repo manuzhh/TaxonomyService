@@ -1,32 +1,19 @@
-from Storage import Storage
 from SessionConfigReader import SessionConfigReader
 from SessionLogger import SessionLogger
+from TrainTestSplitterCustom1 import TrainTestSplitterCustom1
 
 
 class TrainTestSplitter:
 
-    split_ratio_key = 'train_test_split_ratio'
-    random_state_key = 'train_test_split_random_state'
-    ext_train = '_train'
-    ext_test = '_test'
+    tt_splitter_key = 'train_test_splitter'
+    tt_splitter_custom1 = 'custom1'
 
     # expects an identifier for a pandas data frame and optionally the pandas data frame itself
-    # splits the corresponding data frame into test and train data frames, according to split_ratio from the session_config, and stores them (new identifier = identifier +'_train' or '_test')
+    # splits the corresponding data frame into test and train data frames and stores them (new identifier = identifier +'_train' or '_test')
     @staticmethod
     def split_train_test(identifier, data_frame=None):
-        if data_frame is None:
-            data_frame = Storage.load_pd_frame(identifier)
-        split_ratio = SessionConfigReader.read_value(TrainTestSplitter.split_ratio_key)
-        if split_ratio > 1:
-            split_ratio = 1
-        random_state = SessionConfigReader.read_value(TrainTestSplitter.random_state_key)
-        if isinstance(random_state, int):
-            train = data_frame.sample(frac=split_ratio, random_state=random_state)
+        tt_splitter_type = SessionConfigReader.read_value(TrainTestSplitter.tt_splitter_key)
+        if tt_splitter_type == TrainTestSplitter.tt_splitter_custom1:
+            TrainTestSplitterCustom1.split_train_test(identifier, data_frame)
         else:
-            train = data_frame.sample(frac=split_ratio)
-        test = data_frame.drop(train.index)
-        train_name = identifier+TrainTestSplitter.ext_train
-        test_name = identifier+TrainTestSplitter.ext_test
-        Storage.store_pd_frame(train, train_name)
-        Storage.store_pd_frame(test, test_name)
-        SessionLogger.log('Split \'' + identifier + '\' (' + str(len(data_frame.index)) + ' entries) into \'' + train_name + '\' (' + str(len(train.index)) + ' entries) and \'' + test_name + '\' (' + str(len(test.index)) + ' entries).')
+            SessionLogger.log('Tried to split \'' + identifier + '\' into train and test set. Specified TrainTestSplitter is not supported.', log_type='error')
