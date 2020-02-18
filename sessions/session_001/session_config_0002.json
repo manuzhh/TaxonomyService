@@ -6,6 +6,7 @@
   "preprocessor" : ["custom"],
   "noise_remover" : ["custom"],
   "stopword_remover" : ["custom"],
+  "additional_stopwords" : ["ab"],
   "lemmatizer" : ["spacy-german"],
   "train_test_splitter" : ["custom1"],
   "train_test_split_ratio" : [0.5],

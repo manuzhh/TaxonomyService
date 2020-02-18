@@ -16,7 +16,10 @@ class DiskStorageSessionConfigReader:
         config_path = os.path.join(session_path, config_id+DiskStorageSessionConfigReader.json_ext)
         with open(config_path, encoding='utf8') as json_file:
             conf = json.load(json_file)
-            return conf[key][0]
+            if key in conf:
+                return conf[key][0]
+            else:
+                return ''
 
     # expects a list of keywords, contained in the config, a session id and a config_id
     # returns the corresponding values from the config
@@ -29,5 +32,8 @@ class DiskStorageSessionConfigReader:
             conf = json.load(json_file)
             values = list()
             for key in keys:
-                values.append(conf[key][0])
+                if key in conf:
+                    values.append(conf[key][0])
+                else:
+                    values.append('')
             return values
