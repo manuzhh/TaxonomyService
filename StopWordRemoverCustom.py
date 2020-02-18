@@ -42,6 +42,7 @@ class StopWordRemoverCustom:
         stop_words = StopwordHandler.read_stopwords()
         if download_live_stopwords:
             stop_words = stop_words.union(StopwordDownloaderNLTK.get_stopwords(store=0))
+        stop_words.append('ab')
         stop_words = StopWordRemoverCustom.capitalize_words(stop_words)
         if custom_stop_words is not None:
             stop_words = stop_words.union(custom_stop_words)
