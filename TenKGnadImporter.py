@@ -21,7 +21,8 @@ class TenKGnadImporter():
     @staticmethod
     def import_docs(csv_path=None):
         if csv_path is None:
-            csv_path = TenKGnadImporter.sessions_folder + '.' + SessionConfigReader.get_session_id() + '.' + SessionConfigReader.read_value(TenKGnadImporter.corpus_id_key) + TenKGnadImporter.csv_ext
+            session_folder = os.path.join(TenKGnadImporter.sessions_folder, SessionConfigReader.get_session_id())
+            csv_path = os.path.join(session_folder, SessionConfigReader.read_value(TenKGnadImporter.corpus_id_key) + TenKGnadImporter.csv_ext)
         df = pd.read_csv(csv_path, sep=';', quotechar='\'', quoting=csv.QUOTE_MINIMAL, header=None, names=[TenKGnadImporter.category_name, TenKGnadImporter.text_name])
         category_list = df[TenKGnadImporter.category_name].tolist()
         df[TenKGnadImporter.category_name] = df.apply(lambda x: [x[TenKGnadImporter.category_name]], axis=1)

@@ -21,7 +21,6 @@ class DiskStorage:
     # returns corresponding directory path for data
     @staticmethod
     def get_session_data_path(session_id):
-        #sessions_path = os.path.join('..', DiskStorage.sessions_dir)
         sessions_path = DiskStorage.sessions_dir
         session_path = os.path.join(sessions_path, session_id)
         return os.path.join(session_path, DiskStorage.data_dir)

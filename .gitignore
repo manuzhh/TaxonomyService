@@ -4,7 +4,8 @@
 .idea
 *.swp
 .ipynb_checkpoints
-/sessions
+*.log
+data/
 .DS_Store
 .ipynb
 __pycache__/
