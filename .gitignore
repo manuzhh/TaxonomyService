@@ -1,0 +1,10 @@
+# Default ignored files
+/.idea/workspace.xml
+*.iml
+.idea
+*.swp
+.ipynb_checkpoints
+/sessions
+.DS_Store
+.ipynb
+__pycache__/
