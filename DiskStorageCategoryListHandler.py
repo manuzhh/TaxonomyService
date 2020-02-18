@@ -1,12 +1,11 @@
 import os.path
 import json
 from SessionConfigReader import SessionConfigReader
+from DiskStorageMisc import DiskStorageMisc
 
 
 class DiskStorageCategoryListHandler:
 
-    sessions_dir = 'sessions'
-    data_dir = 'data'
     cat_id_key = 'categories_identifier'
     file_name = SessionConfigReader.read_value(cat_id_key) + '.json'
     cat_list_key = 'categories'
@@ -15,10 +14,7 @@ class DiskStorageCategoryListHandler:
     # returns a string list of the current categories for the specified session
     @staticmethod
     def read_categories(session_id):
-        #sessions_path = os.path.join('..', DiskStorageCategoryListHandler.sessions_dir)
-        sessions_path = DiskStorageCategoryListHandler.sessions_dir
-        session_path = os.path.join(sessions_path, session_id)
-        data_path = os.path.join(session_path, DiskStorageCategoryListHandler.data_dir)
+        data_path = DiskStorageMisc.get_session_data_path(session_id)
         categories_path = os.path.join(data_path, DiskStorageCategoryListHandler.file_name)
         if not os.path.exists(categories_path):
             return list()
@@ -33,11 +29,9 @@ class DiskStorageCategoryListHandler:
         data = {DiskStorageCategoryListHandler.cat_list_key: []}
         for category in categories:
             data[DiskStorageCategoryListHandler.cat_list_key].append(category)
-        #sessions_path = os.path.join('..', DiskStorageCategoryListHandler.sessions_dir)
-        sessions_path = DiskStorageCategoryListHandler.sessions_dir
-        session_path = os.path.join(sessions_path, session_id)
-        data_path = os.path.join(session_path, DiskStorageCategoryListHandler.data_dir)
+        data_path = DiskStorageMisc.get_session_data_path(session_id)
         categories_path = os.path.join(data_path, DiskStorageCategoryListHandler.file_name)
+        DiskStorageMisc.create_data_folder(session_id)
         with open(categories_path, 'w+', encoding='utf8') as json_file:
             json.dump(data, json_file, ensure_ascii=False)
 

@@ -11,7 +11,6 @@ class DiskStorageSessionConfigReader:
     # returns the corresponding value from the config
     @staticmethod
     def read_value(key, session_id, config_id):
-        #sessions_path = os.path.join('..', DiskStorageSessionConfigReader.sessions_dir)
         sessions_path = DiskStorageSessionConfigReader.sessions_dir
         session_path = os.path.join(sessions_path, session_id)
         config_path = os.path.join(session_path, config_id+DiskStorageSessionConfigReader.json_ext)
@@ -23,7 +22,6 @@ class DiskStorageSessionConfigReader:
     # returns the corresponding values from the config
     @staticmethod
     def read_values(keys, session_id, config_id):
-        #sessions_path = os.path.join('..', DiskStorageSessionConfigReader.sessions_dir)
         sessions_path = DiskStorageSessionConfigReader.sessions_dir
         session_path = os.path.join(sessions_path, session_id)
         config_path = os.path.join(session_path, config_id+DiskStorageSessionConfigReader.json_ext)

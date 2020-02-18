@@ -1,12 +1,11 @@
 import os.path
 import json
 from SessionConfigReader import SessionConfigReader
+from DiskStorageMisc import DiskStorageMisc
 
 
 class DiskStorageStopwordHandler:
 
-    sessions_dir = 'sessions'
-    data_dir = 'data'
     stpw_id_key = 'stopwords_identifier'
     file_name = SessionConfigReader.read_value(stpw_id_key) + '.json'
     sw_list_key = 'stopwords'
@@ -15,10 +14,7 @@ class DiskStorageStopwordHandler:
     # returns a string set of the current categories for the specified session
     @staticmethod
     def read_stopwords(session_id):
-        #sessions_path = os.path.join('..', DiskStorageStopwordHandler.sessions_dir)
-        sessions_path = DiskStorageStopwordHandler.sessions_dir
-        session_path = os.path.join(sessions_path, session_id)
-        data_path = os.path.join(session_path, DiskStorageStopwordHandler.data_dir)
+        data_path = DiskStorageMisc.get_session_data_path(session_id)
         stopwords_path = os.path.join(data_path, DiskStorageStopwordHandler.file_name)
         if not os.path.exists(stopwords_path):
             return set()
@@ -33,11 +29,9 @@ class DiskStorageStopwordHandler:
         data = {DiskStorageStopwordHandler.sw_list_key: []}
         for stopword in stopwords:
             data[DiskStorageStopwordHandler.sw_list_key].append(stopword)
-        #sessions_path = os.path.join('..', DiskStorageStopwordHandler.sessions_dir)
-        sessions_path = DiskStorageStopwordHandler.sessions_dir
-        session_path = os.path.join(sessions_path, session_id)
-        data_path = os.path.join(session_path, DiskStorageStopwordHandler.data_dir)
+        data_path = DiskStorageMisc.get_session_data_path(session_id)
         stopwords_path = os.path.join(data_path, DiskStorageStopwordHandler.file_name)
+        DiskStorageMisc.create_data_folder(session_id)
         with open(stopwords_path, 'w+', encoding='utf8') as json_file:
             json.dump(data, json_file, ensure_ascii=False)
 

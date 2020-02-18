@@ -12,7 +12,6 @@ class DiskStorageSessionLogger:
     # returns path to log file
     @staticmethod
     def get_log_path(session_id: str):
-        #sessions_path = os.path.join('..', DiskStorageSessionLogger.sessions_dir)
         sessions_path = DiskStorageSessionLogger.sessions_dir
         session_path = os.path.join(sessions_path, session_id)
         return os.path.join(session_path, session_id+DiskStorageSessionLogger.log_ext)
