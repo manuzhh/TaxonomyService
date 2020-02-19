@@ -8,30 +8,33 @@ class Storage:
     session_id_key = 'session-id'
     db_type_fs = 'filesystem'
 
-    # expects pandas data frame and identifier
+    # expects pandas data frame and identifier, optionally a session id
     # stores pandas data frame in storage system
     @staticmethod
-    def store_pd_frame(data_frame, identifier):
+    def store_pd_frame(data_frame, identifier, session_id=None):
         db_type = ConfigReader.get_db_type()
-        session_id = ConfigReader.get_session_id()
+        if session_id is None:
+            session_id = ConfigReader.get_session_id()
         if db_type == Storage.db_type_fs:
             DiskStorage.store_pd_frame(data_frame, identifier, session_id)
 
-    # expects identifier
+    # expects identifier, optionally a session id
     # returns corresponding pandas data frame
     @staticmethod
-    def load_pd_frame(identifier):
+    def load_pd_frame(identifier, session_id=None):
         db_type = ConfigReader.get_db_type()
-        session_id = ConfigReader.get_session_id()
+        if session_id is None:
+            session_id = ConfigReader.get_session_id()
         if db_type == Storage.db_type_fs:
             return DiskStorage.load_pd_frame(identifier, session_id)
 
-    # expects identifier
+    # expects identifier, optionally a session id
     # deletes corresponding pandas data frame from storage system
     @staticmethod
-    def delete_pd_frame(identifier):
+    def delete_pd_frame(identifier, session_id=None):
         db_type = ConfigReader.get_db_type()
-        session_id = ConfigReader.get_session_id()
+        if session_id is None:
+            session_id = ConfigReader.get_session_id()
         if db_type == Storage.db_type_fs:
             DiskStorage.delete_pd_frame(identifier, session_id)
 

@@ -45,7 +45,11 @@ class DiskStorage:
     # returns corresponding pandas data frame
     @staticmethod
     def load_pd_frame(identifier, session_id):
-        return pd.read_pickle(DiskStorage.get_file_path_pickle(identifier, session_id))
+        fp = DiskStorage.get_file_path_pickle(identifier, session_id)
+        if os.path.isfile(fp):
+            return pd.read_pickle(fp)
+        else:
+            return pd.DataFrame()
 
     # expects identifier and session identifier
     # deletes corresponding pandas data frame from disk
