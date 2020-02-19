@@ -56,14 +56,15 @@ class SessionConfigReader:
     # expects a json object
     # sets the session's config
     @staticmethod
-    def set_config(json_f):
+    def set_config(json_f, config_id=None):
         conf_keys = list()
         conf_keys.append(SessionConfigReader.database_type_key)
         conf_keys.append(SessionConfigReader.config_id_key)
         conf_keys.append(SessionConfigReader.session_id_key)
         conf_values = ConfigReader.read_values(conf_keys)
         db_type = conf_values[0]
-        config_id = conf_values[1]
+        if config_id is None:
+            config_id = conf_values[1]
         session_id = conf_values[2]
         if db_type == SessionConfigReader.db_type_fs:
             DiskStorageSessionConfigReader.set_config(session_id, config_id, json_f)

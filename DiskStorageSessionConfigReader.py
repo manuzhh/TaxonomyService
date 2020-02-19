@@ -56,7 +56,7 @@ class DiskStorageSessionConfigReader:
     def set_config(session_id, config_id, json_f):
         config_path = DiskStorageSessionConfigReader.get_config_path(session_id, config_id, create_sub_dirs=1, root_path=DiskStorageMisc.get_session_path(session_id))
         with open(config_path, 'w+', encoding='utf8') as json_file:
-            json.dump(json_f, json_file, ensure_ascii=False)
+            json.dump(json_f, json_file, ensure_ascii=False, indent=1)
 
     # expects a session id and a config id
     # returns the session's config as json
