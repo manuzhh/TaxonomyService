@@ -16,22 +16,25 @@ class DiskStorage:
     # expects identifier and session identifier
     # returns corresponding file path
     @staticmethod
-    def get_file_path_pickle(identifier, session_id):
+    def get_file_path_pickle(identifier, session_id, create_sub_dirs=0, root_path=None):
         data_path = DiskStorageMisc.get_session_data_path(session_id)
+        identifier = DiskStorageMisc.get_identifier_path(identifier, create_sub_dirs=create_sub_dirs, root_path=root_path)
         return os.path.join(data_path, identifier + DiskStorage.pickle_ext)
 
     # expects identifier and session identifier
     # returns corresponding file path
     @staticmethod
-    def get_file_path_model(identifier, session_id):
+    def get_file_path_model(identifier, session_id, create_sub_dirs=0, root_path=None):
         data_path = DiskStorageMisc.get_session_data_path(session_id)
+        identifier = DiskStorageMisc.get_identifier_path(identifier, create_sub_dirs=create_sub_dirs, root_path=root_path)
         return os.path.join(data_path, identifier + DiskStorage.model_ext)
 
     # expects identifier and session identifier
     # returns corresponding file path
     @staticmethod
-    def get_file_path_h5_model(identifier, session_id):
+    def get_file_path_h5_model(identifier, session_id, create_sub_dirs=0, root_path=None):
         data_path = DiskStorageMisc.get_session_data_path(session_id)
+        identifier = DiskStorageMisc.get_identifier_path(identifier, create_sub_dirs=create_sub_dirs, root_path=root_path)
         return os.path.join(data_path, identifier + DiskStorage.h5_model_ext)
 
     # expects pandas data frame, data frame identifier and session identifier
@@ -39,7 +42,7 @@ class DiskStorage:
     @staticmethod
     def store_pd_frame(data_frame, identifier, session_id):
         DiskStorageMisc.create_data_folder(session_id)
-        data_frame.to_pickle(DiskStorage.get_file_path_pickle(identifier, session_id))
+        data_frame.to_pickle(DiskStorage.get_file_path_pickle(identifier, session_id, create_sub_dirs=1, root_path=DiskStorageMisc.get_session_data_path(session_id)))
 
     # expects identifier and session identifier
     # returns corresponding pandas data frame
@@ -65,7 +68,7 @@ class DiskStorage:
     @staticmethod
     def store_model(model, identifier, session_id):
         DiskStorageMisc.create_data_folder(session_id)
-        model.save(DiskStorage.get_file_path_model(identifier, session_id))
+        model.save(DiskStorage.get_file_path_model(identifier, session_id, create_sub_dirs=1, root_path=DiskStorageMisc.get_session_data_path(session_id)))
 
     # expects identifier and session identifier
     # returns corresponding model
@@ -87,7 +90,7 @@ class DiskStorage:
     @staticmethod
     def store_h5_model(model, identifier, session_id):
         DiskStorageMisc.create_data_folder(session_id)
-        model.save(DiskStorage.get_file_path_h5_model(identifier, session_id))
+        model.save(DiskStorage.get_file_path_h5_model(identifier, session_id, create_sub_dirs=1, root_path=DiskStorageMisc.get_session_data_path(session_id)))
 
     # expects identifier and session identifier
     # returns corresponding model

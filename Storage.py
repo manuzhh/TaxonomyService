@@ -38,14 +38,6 @@ class Storage:
         if db_type == Storage.db_type_fs:
             DiskStorage.delete_pd_frame(identifier, session_id)
 
-    # deletes all data from session
-    @staticmethod
-    def delete_session_data():
-        db_type = ConfigReader.get_db_type()
-        session_id = ConfigReader.get_session_id()
-        if db_type == Storage.db_type_fs:
-            DiskStorage.delete_session_data(session_id)
-
     # expects model and identifier
     # stores model in storage system
     @staticmethod
@@ -100,18 +92,10 @@ class Storage:
         if db_type == Storage.db_type_fs:
             DiskStorage.delete_h5_model(identifier, session_id)
 
-    # # deletes preprocessing data from session
-    # @staticmethod
-    # def delete_session_preprocess_data():
-    #     db_type = ConfigReader.get_db_type()
-    #     session_id = ConfigReader.get_session_id()
-    #     if db_type == Storage.db_type_fs:
-    #         DiskStorage.delete_session_preprocess_data(session_id)
-    #
-    # # deletes preprocessing data from session
-    # @staticmethod
-    # def delete_session_vectorize_data():
-    #     db_type = ConfigReader.get_db_type()
-    #     session_id = ConfigReader.get_session_id()
-    #     if db_type == Storage.db_type_fs:
-    #         DiskStorage.delete_session_vectorize_data(session_id)
+    # deletes all data from session
+    @staticmethod
+    def delete_session_data():
+        db_type = ConfigReader.get_db_type()
+        session_id = ConfigReader.get_session_id()
+        if db_type == Storage.db_type_fs:
+            DiskStorage.delete_session_data(session_id)
