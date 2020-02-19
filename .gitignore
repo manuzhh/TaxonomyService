@@ -9,3 +9,4 @@ data/
 .DS_Store
 .ipynb
 __pycache__/
+/EvaluationHandler.py
