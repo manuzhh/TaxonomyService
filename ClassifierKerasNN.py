@@ -83,23 +83,24 @@ class ClassifierKerasNN:
 
         # add layers to the model
         model = Sequential()
-        n_layers = len(layers)
         n_layer = 0
         for layer in layers:
-            layer_type = layer[0]
-            layer_size = layer[1]
-            if n_layer < n_layers-1:
-                layer_activation_type = layer[2]
-                if layer_type == ClassifierKerasNN.layer_type_dense:
-                    if n_layer == 0:
-                        model.add(Dense(layer_size, activation=layer_activation_type, input_dim=dimension))
-                    else:
+            layer_type = layer[0][0]
+            layer_size = layer[1][0]
+            layer_activation_type = layer[2][0]
+            if layer_type == ClassifierKerasNN.layer_type_dense:
+                if n_layer == 0:
+                        model.add(Dense(layer_size, input_dim=dimension))
                         if layer_activation_type == 'LeakyReLU':
                             model.add(LeakyReLU(alpha=0.3))
                         else:
-                            model.add(Dense(layer_size, activation=layer_activation_type))
-            else:
-                model.add(Dense(layer_size))
+                            model.add(Activation(layer_activation_type))
+                else:
+                    if layer_activation_type == 'LeakyReLU':
+                        model.add(Dense(layer_size))
+                        model.add(LeakyReLU(alpha=0.3))
+                    else:
+                        model.add(Dense(layer_size, activation=layer_activation_type))
             n_layer = n_layer+1
 
         # compile the model
@@ -123,15 +124,16 @@ class ClassifierKerasNN:
     # returns expanded data frame
     @staticmethod
     def classify(data_frame, model_id=None, col_name=fv_col_name, new_col_name=class_out_col_name, storage_level=0, storage_name='', log=1):
+        df = data_frame.copy()
         if model_id is None:
             model_id = ClassifierKerasNN.get_model_id()
         model = Storage.load_h5_model(model_id)
-        data_frame[new_col_name] = data_frame.apply(lambda x: model.predict(np.asarray([x[col_name]]))[0], axis=1)
-        log_text = 'Classified documents (' + str(len(data_frame.index)) + ' entries).'
+        df[new_col_name] = df.apply(lambda x: model.predict(np.asarray([x[col_name]]))[0], axis=1)
+        log_text = 'Classified documents (' + str(len(df.index)) + ' entries).'
         if storage_level >= 1 and storage_name != '':
             storage_name = storage_name + ClassifierKerasNN.ext_classified
-            Storage.store_pd_frame(data_frame, storage_name)
+            Storage.store_pd_frame(df, storage_name)
             log_text = log_text + ' Stored in \'' + storage_name + '\' (column: \'' + new_col_name + '\').'
         if log:
             SessionLogger.log(log_text)
-        return data_frame
+        return df

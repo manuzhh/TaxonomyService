@@ -31,9 +31,11 @@ class ClassificationInterpreterCustom1:
     # returns pandas data frame with added column for added output vectors
     @staticmethod
     def create_out_vectors(data_frame, col_name=col_name_categories, new_col_name=new_col_name_cat_vec, storage_level=0, storage_name=''):
-        data_frame[ClassificationInterpreterCustom1.one_word_cat] = data_frame.apply(lambda x: ClassificationInterpreterCustom1.extract_one_word_cat(x[col_name]), axis=1)
-        vectorized_df = Vectorizer.vectorize(data_frame, col_name=ClassificationInterpreterCustom1.one_word_cat, new_col_name=new_col_name, storage_level=0, log=0)
+        df = data_frame.copy()
+        df[ClassificationInterpreterCustom1.one_word_cat] = df.apply(lambda x: ClassificationInterpreterCustom1.extract_one_word_cat(x[col_name]), axis=1)
+        vectorized_df = Vectorizer.vectorize(df, col_name=ClassificationInterpreterCustom1.one_word_cat, new_col_name=new_col_name, storage_level=0, log=0)
         vectorized_df = vectorized_df.drop(columns=[ClassificationInterpreterCustom1.one_word_cat])
+        vectorized_df[new_col_name] = vectorized_df.apply(lambda x: (x[new_col_name]+1)/2, axis=1) # adjust to softmax codomain
 
         log_text = 'Category vectors for classifier training have been created (' + str(len(data_frame.index)) + ' entries).'
         if storage_level >= 1 and storage_name != '':
@@ -48,6 +50,7 @@ class ClassificationInterpreterCustom1:
     # returns the word with the highest cosine similarity in relation to the vector
     @staticmethod
     def get_highest_cosine_similarity(vec, word_list, word_vec_list):
+        vec = vec*2-1 # adjust from softmax codomain
         idx = 0
         sim = 0
         highest_word = ''
@@ -57,6 +60,8 @@ class ClassificationInterpreterCustom1:
                 new_sim = 0
             else:
                 new_sim = cosine_similarity(np.asarray([word_vec]), [vec])[0][0]
+                if new_sim < 0:
+                    new_sim = new_sim*-1
             if new_sim > sim:
                 sim = new_sim
                 highest_word = word
@@ -68,19 +73,20 @@ class ClassificationInterpreterCustom1:
     # returns pandas data frame with added column for added category lists
     @staticmethod
     def interpret_output(data_frame, col_name=col_name_class_out, new_col_name=col_name_result, storage_level=0, storage_name='', log=1):
+        df = data_frame.copy()
         category_list = CategoryListHandler.read_categories()
         category_vectors = Vectorizer.get_word_vectors(category_list)
-        data_frame[new_col_name] = data_frame.apply(lambda x: [ClassificationInterpreterCustom1.get_highest_cosine_similarity(x[col_name], category_list, category_vectors)], axis=1)
+        df[new_col_name] = df.apply(lambda x: [ClassificationInterpreterCustom1.get_highest_cosine_similarity(x[col_name], category_list, category_vectors)], axis=1)
 
-        log_text = 'Categories have been determined (' + str(len(data_frame.index)) + ' entries).'
+        log_text = 'Categories have been determined (' + str(len(df.index)) + ' entries).'
         if storage_level >= 1 and storage_name != '':
             storage_name = storage_name + ClassificationInterpreterCustom1.ext_categorized
-            Storage.store_pd_frame(data_frame, storage_name)
+            Storage.store_pd_frame(df, storage_name)
             log_text = log_text + ' Stored in \'' + storage_name + '\' (column: \'' + new_col_name + '\').'
         if log:
             SessionLogger.log(log_text)
 
-        return data_frame
+        return df
 
     # expects a pandas data frame, containing a column with categories and a column with interpreted classification outputs
     # compares content from both columns and makes a summarizing statement about accuracy

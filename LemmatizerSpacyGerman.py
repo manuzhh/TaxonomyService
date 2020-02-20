@@ -29,11 +29,12 @@ class LemmatizerSpacyGerman:
     # returns new pandas data frame, containing a column 'lemmatized'
     @staticmethod
     def normalize(data_frame, col_name=col_name, storage_level=0, storage_name='', log=1):
-        data_frame[LemmatizerSpacyGerman.new_col_name] = data_frame.apply(lambda x: LemmatizerSpacyGerman.process_text(x[col_name]), axis=1)
-        log_text = 'Documents lemmatized with spacy (' + str(len(data_frame.index)) + ' entries).'
+        df = data_frame.copy()
+        df[LemmatizerSpacyGerman.new_col_name] = df.apply(lambda x: LemmatizerSpacyGerman.process_text(x[col_name]), axis=1)
+        log_text = 'Documents lemmatized with spacy (' + str(len(df.index)) + ' entries).'
         if storage_level >= 1 and storage_name != '':
-            Storage.store_pd_frame(data_frame, storage_name)
+            Storage.store_pd_frame(df, storage_name)
             log_text = log_text + ' Stored in \'' + storage_name + '\' (column: \'' + LemmatizerSpacyGerman.new_col_name + '\').'
         if log:
             SessionLogger.log(log_text)
-        return data_frame
+        return df

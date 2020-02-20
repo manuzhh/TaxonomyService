@@ -17,7 +17,9 @@ class StopWordRemover:
     @staticmethod
     def remove_stopwords(data_frame, custom_stop_words=None, download_live_stopwords=0, col_name=col_name, storage_level=0, storage_name='', log=1):
         stopwordremover = SessionConfigReader.read_value(StopWordRemover.stopwordremover_key)
-        custom_stop_words = custom_stop_words + SessionConfigReader.read_value(StopWordRemover.custom_sw_key).split()
+        if custom_stop_words is None:
+            custom_stop_words = list()
+        custom_stop_words.extend(SessionConfigReader.read_value(StopWordRemover.custom_sw_key))
         if stopwordremover == StopWordRemover.stopwordremover_custom:
             return StopWordRemoverCustom.remove_stopwords(data_frame, custom_stop_words=custom_stop_words, download_live_stopwords=download_live_stopwords, col_name=col_name, storage_level=storage_level, storage_name=storage_name, log=log)
         else:

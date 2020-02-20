@@ -39,20 +39,21 @@ class StopWordRemoverCustom:
     # returns new pandas data frame, containing a column 'stopwords removed'
     @staticmethod
     def remove_stopwords(data_frame, custom_stop_words=None, download_live_stopwords=0, col_name=col_name, storage_level=0, storage_name='', log=1):
+        df = data_frame.copy()
         stop_words = StopwordHandler.read_stopwords()
         if download_live_stopwords:
             stop_words = stop_words.union(StopwordDownloaderNLTK.get_stopwords(store=0))
         stop_words = StopWordRemoverCustom.capitalize_words(stop_words)
         if custom_stop_words is not None:
             stop_words = stop_words.union(custom_stop_words)
-        data_frame[StopWordRemoverCustom.new_col_name] = data_frame.apply(lambda x: StopWordRemoverCustom.process_text(x[col_name], stop_words), axis=1)
-        log_text = 'Removed stop words from documents (' + str(len(data_frame.index)) + ' entries).'
+        df[StopWordRemoverCustom.new_col_name] = df.apply(lambda x: StopWordRemoverCustom.process_text(x[col_name], stop_words), axis=1)
+        log_text = 'Removed stop words from documents (' + str(len(df.index)) + ' entries).'
         if storage_level >= 1 and storage_name != '':
-            Storage.store_pd_frame(data_frame, storage_name)
+            Storage.store_pd_frame(df, storage_name)
             log_text = log_text + ' Stored in \'' + storage_name + '\' (column: \'' + StopWordRemoverCustom.new_col_name + '\').'
         if log:
             SessionLogger.log(log_text)
-        return data_frame
+        return df
 
     # returns set of stopwords
     @staticmethod

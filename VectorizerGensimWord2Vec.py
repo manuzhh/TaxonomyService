@@ -98,15 +98,16 @@ class VectorizerGensimWord2Vec:
     # returns vectorized pandas data frame
     @staticmethod
     def vectorize(data_frame, model_id=None, col_name=col_name, new_col_name=new_col_name, storage_level=0, storage_name='', log=1):
+        df = data_frame.copy()
         if model_id is None:
             model_id = VectorizerGensimWord2Vec.get_model_id()
         model = Storage.load_model(model_id)
-        data_frame[new_col_name] = data_frame.apply(lambda x: VectorizerGensimWord2Vec.process_text(x[col_name], model), axis=1)
-        log_text = 'Vectorized documents (' + str(len(data_frame.index)) + ' entries).'
+        df[new_col_name] = df.apply(lambda x: VectorizerGensimWord2Vec.process_text(x[col_name], model), axis=1)
+        log_text = 'Vectorized documents (' + str(len(df.index)) + ' entries).'
         if storage_level >= 1 and storage_name != '':
             storage_name = storage_name + VectorizerGensimWord2Vec.ext_vectorized
-            Storage.store_pd_frame(data_frame, storage_name)
+            Storage.store_pd_frame(df, storage_name)
             log_text = log_text + ' Stored in \'' + storage_name + '\' (column: \'' + new_col_name + '\').'
         if log:
             SessionLogger.log(log_text)
-        return data_frame
+        return df
