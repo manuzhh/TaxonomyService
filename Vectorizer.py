@@ -6,11 +6,16 @@ from SessionLogger import SessionLogger
 
 class Vectorizer:
 
+    model_id_key = 'vec_model_id'
     col_name = 'preprocessed'
     new_col_name = 'document vector'
     vectorizer_key = 'vectorizer'
     vectorizer_gensim_w2v = 'gensim-word2vec'
-    #vectorizer_sklearn_tfidf = 'sklearn-tfidf'
+
+    # returns the model identifier, specified in the session config
+    @staticmethod
+    def get_model_id():
+        return SessionConfigReader.read_value(Vectorizer.model_id_key)
 
     # expects string list of words, optionally a model id
     # creates word vectors for each word in text, if word is not contained in the model's dictionary the vector is None

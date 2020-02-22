@@ -20,8 +20,25 @@
   "word-vec_to_doc-vec" : ["custom"],
   "feature_vec_dim" : [100],
   "classifier" : ["keras_nn"],
-  "keras_nn_model_id" : ["articles_train_keras_nn_002"],
+  "keras_nn_model_id" : ["articles_train_keras_nn_001", "articles_train_keras_nn_002"],
   "keras_nn_layers" : [
+    [
+      [
+        ["dense"],
+        [2000],
+        ["relu"]
+      ],
+      [
+        ["dense"],
+        [2000],
+        ["LeakyReLU"]
+      ],
+      [
+        ["dense"],
+        [100],
+        ["softmax"]
+      ]
+    ],
     [
       [
         ["dense"],
@@ -45,6 +62,7 @@
   "keras_nn_metrics" : ["accuracy"],
   "keras_nn_epochs" : [5, 10],
   "keras_nn_batch_size" : [256],
-  "classification_interpreter" : ["custom2"],
-  "classification_interpreter_output_threshold" : [0.6]
+  "classification_interpreter" : ["custom1", "custom2"],
+  "classification_interpreter_output_threshold" : [0.66],
+  "similarity_function" : ["euclidean_distance", "cosine_similarity"]
 }

@@ -3,8 +3,9 @@ from Misc import Misc
 from Storage import Storage
 from SessionLogger import SessionLogger
 from CategoryListHandler import CategoryListHandler
-from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.metrics.pairwise import cosine_similarity, euclidean_distances
 import numpy as np
+from SessionConfigReader import SessionConfigReader
 
 
 class ClassificationInterpreterCustom1:
@@ -16,6 +17,9 @@ class ClassificationInterpreterCustom1:
     one_word_cat = 'one word category'
     ext_out_vecs = '_category_vectors'
     ext_categorized = '_categorized'
+    similarity_function_key = 'similarity_function'
+    sim_func_cosine = 'cosine_similarity'
+    sim_func_eucl_dist = 'euclidean_distance'
 
     # expects list of strings
     # returns the first word from the first string element in the list
@@ -47,19 +51,22 @@ class ClassificationInterpreterCustom1:
         return vectorized_df
 
     # expects a vector and two lists with word strings and their vector representations
-    # returns the word with the highest cosine similarity in relation to the vector
+    # returns the word with the highest similarity in relation to the vector
     @staticmethod
-    def get_highest_cosine_similarity(vec, word_list, word_vec_list):
+    def get_highest_similarity(vec, word_list, word_vec_list):
         vec = vec*2-1 # adjust from softmax codomain
+        sim_func = SessionConfigReader.read_value(ClassificationInterpreterCustom1.similarity_function_key)
         idx = 0
         sim = 0
         highest_word = ''
         for word in word_list:
             word_vec = word_vec_list[idx]
-            if word_vec is None:
-                new_sim = 0
-            else:
-                new_sim = cosine_similarity(np.asarray([word_vec]), [vec])[0][0]
+            new_sim = 0
+            if word_vec is not None:
+                if sim_func == ClassificationInterpreterCustom1.sim_func_cosine:
+                    new_sim = cosine_similarity(np.asarray([word_vec]), [vec])[0][0]
+                elif sim_func == ClassificationInterpreterCustom1.sim_func_eucl_dist:
+                    new_sim = euclidean_distances([word_vec], [vec])[0][0]
                 if new_sim < 0:
                     new_sim = new_sim*-1
             if new_sim > sim:
@@ -76,7 +83,7 @@ class ClassificationInterpreterCustom1:
         df = data_frame.copy()
         category_list = CategoryListHandler.read_categories()
         category_vectors = Vectorizer.get_word_vectors(category_list)
-        df[new_col_name] = df.apply(lambda x: [ClassificationInterpreterCustom1.get_highest_cosine_similarity(x[col_name], category_list, category_vectors)], axis=1)
+        df[new_col_name] = df.apply(lambda x: [ClassificationInterpreterCustom1.get_highest_similarity(x[col_name], category_list, category_vectors)], axis=1)
 
         log_text = 'Categories have been determined (' + str(len(df.index)) + ' entries).'
         if storage_level >= 1 and storage_name != '':

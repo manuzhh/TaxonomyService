@@ -12,6 +12,16 @@ class Classifier:
     cat_v_col_name = 'categories vector'
     class_out_col_name = 'classification output'
 
+    # returns the model identifier, specified in the session config
+    @staticmethod
+    def get_model_id():
+        classifier_type = SessionConfigReader.read_value(Classifier.classifier_key)
+        if classifier_type == Classifier.classifier_keras_nn:
+            return ClassifierKerasNN.get_model_id()
+        else:
+            SessionLogger.log('Tried to get classifier model id. Specified Classifier is not supported.', log_type='error')
+            return ''
+
     # expects pandas data frame, optionally an identifier for the model to train and column names referencing the vectors used for training
     # returns the model identifier
     @staticmethod
