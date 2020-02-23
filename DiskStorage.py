@@ -126,3 +126,4 @@ class DiskStorage:
         session_path = DiskStorageMisc.get_session_path(session_id)
         location_path = os.path.join(session_path, location)
         DiskStorageMisc.delete_from_folder(location_path)
+        SessionLogger.log('Location \'' + location + '\' has been deleted.')
