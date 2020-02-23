@@ -119,3 +119,10 @@ class DiskStorage:
     def delete_session_data(session_id):
         DiskStorageMisc.delete_session_data(session_id)
 
+    # expects location within the session location (i.e. a directory)
+    # deletes location from session
+    @staticmethod
+    def delete_location(location, session_id):
+        session_path = DiskStorageMisc.get_session_path(session_id)
+        location_path = os.path.join(session_path, location)
+        DiskStorageMisc.delete_from_folder(location_path)

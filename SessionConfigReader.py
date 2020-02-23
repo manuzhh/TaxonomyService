@@ -1,3 +1,4 @@
+import json
 from DiskStorageSessionConfigReader import DiskStorageSessionConfigReader
 from ConfigReader import ConfigReader
 
@@ -8,6 +9,9 @@ class SessionConfigReader:
     config_id_key = 'config-id'
     session_id_key = 'session-id'
     db_type_fs = 'filesystem'
+    config_template_key = 'config-template-id'
+    config_template_default = 'default'
+    config_template_default_name = 'session_config_template.json'
 
     # returns session id
     @staticmethod
@@ -82,5 +86,25 @@ class SessionConfigReader:
         session_id = conf_values[2]
         if db_type == SessionConfigReader.db_type_fs:
             return DiskStorageSessionConfigReader.get_config(session_id, config_id)
+        else:
+            return {}
+
+    # returns the session config template as json
+    @staticmethod
+    def get_config_template(config_template_id=None):
+        conf_keys = list()
+        conf_keys.append(SessionConfigReader.database_type_key)
+        conf_keys.append(SessionConfigReader.config_template_key)
+        conf_keys.append(SessionConfigReader.session_id_key)
+        conf_values = ConfigReader.read_values(conf_keys)
+        db_type = conf_values[0]
+        if config_template_id is None:
+            config_template_id = conf_values[1]
+        session_id = conf_values[2]
+        if config_template_id == SessionConfigReader.config_template_default:
+            with open(SessionConfigReader.config_template_default_name, encoding='utf8') as json_file:
+                return json.load(json_file)
+        if db_type == SessionConfigReader.db_type_fs:
+            return DiskStorageSessionConfigReader.get_config(session_id, config_template_id)
         else:
             return {}

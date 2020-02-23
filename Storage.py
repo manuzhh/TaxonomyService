@@ -99,3 +99,12 @@ class Storage:
         session_id = ConfigReader.get_session_id()
         if db_type == Storage.db_type_fs:
             DiskStorage.delete_session_data(session_id)
+
+    # expects location within the session location (i.e. a directory)
+    # deletes location from session
+    @staticmethod
+    def delete_location(location):
+        db_type = ConfigReader.get_db_type()
+        session_id = ConfigReader.get_session_id()
+        if db_type == Storage.db_type_fs:
+            DiskStorage.delete_location(location, session_id)

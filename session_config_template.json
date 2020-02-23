@@ -1,7 +1,7 @@
 {
   "corpus_importer" : ["TenKGNAD"],
-  "corpus_identifier" : ["articles"],
-  "categories_identifier" : ["categories"],
+  "corpus_identifier" : ["tenkgnad"],
+  "categories_identifier" : ["categories_tenkgnad"],
   "preprocessor" : ["custom"],
   "noise_remover" : ["custom"],
   "stopword_remover" : ["custom"],
@@ -10,7 +10,7 @@
   "lemmatizer" : ["spacy-german"],
   "train_test_splitter" : ["custom1"],
   "train_test_split_ratio" : [0.5],
-  "train_test_split_random_state" : [200, "None"],
+  "train_test_split_random_state" : [200, 333, "None"],
   "vectorizer" : ["gensim-word2vec"],
   "vec_model_id" : ["articles_train_word2vec_001"],
   "word2vec_size" : [100],
@@ -21,6 +21,12 @@
   "feature_vec_dim" : [100],
   "classifier" : ["keras_nn"],
   "keras_nn_model_id" : ["articles_train_keras_nn_001", "articles_train_keras_nn_002"],
+  "keras_nn_default_activation" : ["relu", "LeakyReLU"],
+  "keras_nn_default_output_activation" : ["softmax"],
+  "keras_nn_default_layer_size" : [2000, 3500],
+  "keras_nn_default_output_layer_size" : [100, 9],
+  "keras_nn_default_layer_count" : [3, 4, 5],
+  "keras_nn_default_layer_type" : ["dense"],
   "keras_nn_layers" : [
     [
       [
@@ -60,7 +66,7 @@
   "keras_nn_loss" : ["cosine_proximity"],
   "keras_nn_optimizer" :["adam"],
   "keras_nn_metrics" : ["accuracy"],
-  "keras_nn_epochs" : [5, 10],
+  "keras_nn_epochs" : [4, 5, 10],
   "keras_nn_batch_size" : [256],
   "classification_interpreter" : ["custom1", "custom2"],
   "classification_interpreter_output_threshold" : [0.66],
