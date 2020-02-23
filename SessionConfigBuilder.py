@@ -13,4 +13,4 @@ class SessionConfigBuilder:
     def create_session_configs(configs_location=None):
         config_builder_type = ConfigReader.get_config_builder_type()
         if config_builder_type == SessionConfigBuilder.config_builder_custom1:
-            SessionConfigBuilderCustom1.create_session_configs(configs_location)
+            return SessionConfigBuilderCustom1.create_session_configs(configs_location)
