@@ -11,7 +11,7 @@ from SessionConfigReader import SessionConfigReader
 class ClassificationInterpreterCustom1:
 
     col_name_categories = 'categories'
-    new_col_name_cat_vec = 'category vector'
+    new_col_name_cat_vec = 'categories vector'
     col_name_class_out = 'classification output'
     col_name_result = 'result'
     one_word_cat = 'one word category'
