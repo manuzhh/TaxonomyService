@@ -78,7 +78,9 @@ class SetupRunner:
             score = ClassificationInterpreter.evaluate_output(test_interpreted)
             EvaluationHandler.add_evaluation(score)
             idx = idx + 1
-            SessionLogger.log('Evaluated config # ' + str(idx) + ' / ' + str(n_configs) + ' .')
+            Storage.delete_pd_frame(train_df_id)
+            Storage.delete_pd_frame(test_df_id)
+            SessionLogger.log('Evaluated config # ' + str(idx) + ' / ' + str(n_configs) + ' . Score: ' + str(score))
         evaluations = EvaluationHandler.load_evaluations()
         evaluations.sort_values(by=[SetupRunner.column_score])
         return evaluations
