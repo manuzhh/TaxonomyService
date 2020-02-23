@@ -7,6 +7,7 @@ class TrainTestSplitterCustom1:
 
     split_ratio_key = 'train_test_split_ratio'
     random_state_key = 'train_test_split_random_state'
+    corpus_identifier_key = 'corpus_identifier'
     ext_train = '_train'
     ext_test = '_test'
 
@@ -25,6 +26,8 @@ class TrainTestSplitterCustom1:
         else:
             train = data_frame.sample(frac=split_ratio)
         test = data_frame.drop(train.index)
+        if identifier is None:
+            identifier = SessionConfigReader.read_value(TrainTestSplitterCustom1.corpus_identifier_key)
         train_name = identifier+TrainTestSplitterCustom1.ext_train
         test_name = identifier+TrainTestSplitterCustom1.ext_test
         Storage.store_pd_frame(train, train_name)
