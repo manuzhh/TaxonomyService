@@ -10,10 +10,10 @@ class TrainTestSplitterCustom1:
     ext_train = '_train'
     ext_test = '_test'
 
-    # expects an identifier for a pandas data frame and optionally the pandas data frame itself
+    # expects an identifier for a pandas data frame or optionally the pandas data frame itself
     # splits the corresponding data frame into test and train data frames, according to split_ratio from the session_config, and stores them (new identifier = identifier +'_train' or '_test')
     @staticmethod
-    def split_train_test(identifier, data_frame=None):
+    def split_train_test(identifier=None, data_frame=None):
         if data_frame is None:
             data_frame = Storage.load_pd_frame(identifier)
         split_ratio = SessionConfigReader.read_value(TrainTestSplitterCustom1.split_ratio_key)
