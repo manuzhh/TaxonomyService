@@ -66,7 +66,7 @@ class SetupRunner:
             Storage.delete_h5_model(SessionConfigReader.read_value(SetupRunner.keras_nn_model_id_key))
             vectorized_df_id = corpus_id + SetupRunner.ext_vectorized
             df = Storage.load_pd_frame(vectorized_df_id)
-            TrainTestSplitter.split_train_test(df)
+            TrainTestSplitter.split_train_test(data_frame=df)
             train_df_id = vectorized_df_id + SetupRunner.ext_train
             train = Storage.load_pd_frame(train_df_id)
             test_df_id = vectorized_df_id + SetupRunner.ext_test
