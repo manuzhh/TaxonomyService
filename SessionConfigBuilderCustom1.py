@@ -795,7 +795,12 @@ class SessionConfigBuilderCustom1:
     # constructs a number of session configs, stores them
     # returns list with config identifiers
     @staticmethod
-    def create_session_configs(configs_location=None):
+    def create_session_configs(configs_location=None, delete_old_configs=1):
+        if configs_location is None:
+            configs_location = SessionConfigBuilderCustom1.configs_location
+        if delete_old_configs:
+            Storage.delete_location(configs_location)
+
         configs = [SessionConfigReader.get_config_template()]
 
         configs = SessionConfigBuilderCustom1.add_corpus_info(configs)
@@ -827,8 +832,6 @@ class SessionConfigBuilderCustom1:
 
         SessionLogger.log('Constructed ' + str(n_configs) + ' new session configs from template: \'' + ConfigReader.get_config_template_id() + '\'.')
 
-        if configs_location is None:
-            configs_location = SessionConfigBuilderCustom1.configs_location
         config_ids = list()
         idx = 0
         for conf in configs:
