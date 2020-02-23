@@ -38,18 +38,18 @@ class SetupRunner:
         else:
             df = Storage.load_pd_frame(corpus_id)
         if run_preprocessing:
-            df = TextPreprocessor.preprocess_texts(df)
+            df = TextPreprocessor.preprocess_texts(df, storage_level=1)
         else:
             df = Storage.load_pd_frame(corpus_id+SetupRunner.ext_preprocessed)
         if run_vectorization:
             Storage.delete_model(SessionConfigReader.read_value(SetupRunner.vec_model_id_key))
             Vectorizer.create_model(df)
-            df = Vectorizer.vectorize(df)
+            df = Vectorizer.vectorize(df, storage_level=1)
         else:
             df = Storage.load_pd_frame(corpus_id+SetupRunner.ext_vectorized)
         if run_classification:
             Storage.delete_h5_model(SessionConfigReader.read_value(SetupRunner.keras_nn_model_id_key))
-            df = ClassificationInterpreter.create_out_vectors(df)
+            df = ClassificationInterpreter.create_out_vectors(df, storage_level=1)
             Classifier.create_model(df)
 
     # runs config tests
