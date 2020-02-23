@@ -11,7 +11,7 @@ class ClassificationInterpreter:
     classification_interpreter_custom1 = 'custom1'
     classification_interpreter_custom2 = 'custom2'
     col_name_categories = 'categories'
-    new_col_name_cat_vec = 'category vector'
+    new_col_name_cat_vec = 'categories vector'
     col_name_class_out = 'classification output'
     col_name_result = 'result'
 
