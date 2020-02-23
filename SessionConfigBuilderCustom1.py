@@ -9,6 +9,7 @@ class SessionConfigBuilderCustom1:
 
     config_template = 'session_config_template.json'
     configs_location = 'session_configs'
+    config_name = 'conf'
 
     corpus_importer_key = 'corpus_importer'
     corpus_identifier_key = 'corpus_identifier'
@@ -836,7 +837,7 @@ class SessionConfigBuilderCustom1:
         config_ids = list()
         idx = 0
         for conf in configs:
-            config_id = configs_location + '/conf' + str(idx+1)
+            config_id = configs_location + '/' + SessionConfigBuilderCustom1.config_name + str(idx+1)
             SessionConfigReader.set_config(conf, config_id)
             config_ids.append(config_id)
             idx = idx + 1
@@ -844,3 +845,13 @@ class SessionConfigBuilderCustom1:
         SessionLogger.log('Stored ' + str(n_configs) + ' session configs in \'' + configs_location + '\'.')
 
         return config_ids
+
+    # returns the configs location
+    @staticmethod
+    def get_configs_location():
+        return SessionConfigBuilderCustom1.configs_location
+
+    # returns the general config name
+    @staticmethod
+    def get_configs_name():
+        return SessionConfigBuilderCustom1.config_name

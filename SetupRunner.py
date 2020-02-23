@@ -55,11 +55,13 @@ class SetupRunner:
     # runs config tests
     # returns an evaluation frame
     @staticmethod
-    def run_config_tests(run_import=0, run_preprocessing=0, run_vectorization=0):
-        config_ids = SessionConfigBuilder.create_session_configs()
+    def run_config_tests(run_import=0, run_preprocessing=0, run_vectorization=0, config_ids=None, resume_at_idx=0):
+        if config_ids is None:
+            config_ids = SessionConfigBuilder.create_session_configs()
         n_configs = len(config_ids)
-        idx = 0
-        for config_id in config_ids:
+        idx = resume_at_idx
+        while idx < len(config_ids):
+            config_id = config_ids[idx]
             ConfigReader.set_session_config_id(config_id)
             corpus_id = SessionConfigReader.read_value(SetupRunner.corpus_id_key)
             SetupRunner.run_setup(run_import=run_import, run_preprocessing=run_preprocessing, run_vectorization=run_vectorization, run_classification=0)
@@ -77,10 +79,41 @@ class SetupRunner:
             test_interpreted = ClassificationInterpreter.interpret_output(test_classified)
             score = ClassificationInterpreter.evaluate_output(test_interpreted)
             EvaluationHandler.add_evaluation(score)
-            idx = idx + 1
             Storage.delete_pd_frame(train_df_id)
             Storage.delete_pd_frame(test_df_id)
+            idx = idx + 1
             SessionLogger.log('Evaluated config # ' + str(idx) + ' / ' + str(n_configs) + ' . Score: ' + str(score))
         evaluations = EvaluationHandler.load_evaluations()
         evaluations.sort_values(by=[SetupRunner.column_score])
         return evaluations
+
+    # expects a list of config_ids
+    # returns the list, sorted by config id values
+    @staticmethod
+    def sort_config_list(config_list):
+        conf_name = SessionConfigBuilder.get_configs_name()
+        idx_list = list()
+        for conf in config_list:
+            conf_idx = conf.split(conf_name)[1]
+            idx_list.append(int(conf_idx))
+        idx_list.sort()
+        sorted_configs = list()
+        for idx in idx_list:
+            sorted_configs.append(conf_name + str(idx))
+        return sorted_configs
+
+    # expects an index (idx=1 represents the first file)
+    # resumes config tests at index
+    @staticmethod
+    def resume_config_tests_at_idx(idx, run_import=0, run_preprocessing=0, run_vectorization=0):
+        if idx > 0:
+            idx = idx - 1
+        SessionLogger.log('Resuming config tests at config #' + str(idx) + ' ...')
+        configs_location = SessionConfigBuilder.get_configs_location()
+        config_ids = Storage.list_ids(configs_location)
+        config_ids = SetupRunner.sort_config_list(config_ids)
+        config_ids_with_dir = list()
+        for c_id in config_ids:
+            config_ids_with_dir.append(configs_location + '/' + c_id)
+        SessionLogger.log('Config ID list has been restored.')
+        return SetupRunner.run_config_tests(run_import=run_import, run_preprocessing=run_preprocessing, run_vectorization=run_vectorization, config_ids=config_ids_with_dir, resume_at_idx=idx)

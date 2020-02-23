@@ -1,6 +1,7 @@
 import pandas as pd
 import os.path
 import os
+from os import listdir
 from gensim.models import Word2Vec
 from keras.models import load_model
 from SessionLogger import SessionLogger
@@ -127,3 +128,25 @@ class DiskStorage:
         location_path = os.path.join(session_path, location)
         DiskStorageMisc.delete_from_folder(location_path)
         SessionLogger.log('Location \'' + location + '\' has been deleted.')
+
+    # expects location within the session location (i.e. a directory) and the session id
+    # returns a list of all identifiers from the location
+    @staticmethod
+    def list_ids(location, session_id):
+        session_path = DiskStorageMisc.get_session_path(session_id)
+        location_path = os.path.join(session_path, location)
+        potential_ids = listdir(location_path)
+        ids = list()
+        for pot_id in potential_ids:
+            if os.path.isfile(os.path.join(location_path, pot_id)):
+                f_parts = pot_id.split('.')
+                idx = 0
+                identifier = ''
+                for part in f_parts:
+                    if idx == 0:
+                        identifier = part
+                    if 0 < idx < len(f_parts)-1:
+                        identifier = identifier + '.' + part
+                    idx = idx + 1
+                ids.append(identifier)
+        return ids
