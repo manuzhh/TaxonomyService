@@ -7,7 +7,7 @@ from DiskStorageMisc import DiskStorageMisc
 class DiskStorageCategoryListHandler:
 
     cat_id_key = 'categories_identifier'
-    file_name = SessionConfigReader.read_value(cat_id_key) + '.json'
+    ext_json = '.json'
     cat_list_key = 'categories'
 
     # expects a session id
@@ -15,7 +15,8 @@ class DiskStorageCategoryListHandler:
     @staticmethod
     def read_categories(session_id):
         data_path = DiskStorageMisc.get_session_data_path(session_id)
-        categories_path = os.path.join(data_path, DiskStorageCategoryListHandler.file_name)
+        file_name = SessionConfigReader.read_value(DiskStorageCategoryListHandler.cat_id_key) + DiskStorageCategoryListHandler.ext_json
+        categories_path = os.path.join(data_path, file_name)
         if not os.path.exists(categories_path):
             return list()
         with open(categories_path, encoding='utf8') as json_file:
@@ -30,7 +31,8 @@ class DiskStorageCategoryListHandler:
         for category in categories:
             data[DiskStorageCategoryListHandler.cat_list_key].append(category)
         data_path = DiskStorageMisc.get_session_data_path(session_id)
-        categories_path = os.path.join(data_path, DiskStorageCategoryListHandler.file_name)
+        file_name = SessionConfigReader.read_value(DiskStorageCategoryListHandler.cat_id_key) + DiskStorageCategoryListHandler.ext_json
+        categories_path = os.path.join(data_path, file_name)
         DiskStorageMisc.create_data_folder(session_id)
         with open(categories_path, 'w+', encoding='utf8') as json_file:
             json.dump(data, json_file, ensure_ascii=False)

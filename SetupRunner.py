@@ -106,9 +106,9 @@ class SetupRunner:
     # resumes config tests at index
     @staticmethod
     def resume_config_tests_at_idx(idx, run_import=0, run_preprocessing=0, run_vectorization=0):
+        SessionLogger.log('Resuming config tests at config # ' + str(idx) + ' ...')
         if idx > 0:
             idx = idx - 1
-        SessionLogger.log('Resuming config tests at config #' + str(idx) + ' ...')
         configs_location = SessionConfigBuilder.get_configs_location()
         config_ids = Storage.list_ids(configs_location)
         config_ids = SetupRunner.sort_config_list(config_ids)
