@@ -63,7 +63,7 @@
       ]
     ]
   ],
-  "keras_nn_loss" : ["cosine_proximity"],
+  "keras_nn_loss" : ["cosine_proximity", "mean_squared_error", "mean_squared_logarithmic_error", "hinge", "categorical_crossentropy"],
   "keras_nn_optimizer" :["adam"],
   "keras_nn_metrics" : ["accuracy"],
   "keras_nn_epochs" : [4, 5, 10],

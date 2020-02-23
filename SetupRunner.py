@@ -57,6 +57,8 @@ class SetupRunner:
     @staticmethod
     def run_config_tests(run_import=0, run_preprocessing=0, run_vectorization=0):
         config_ids = SessionConfigBuilder.create_session_configs()
+        n_configs = len(config_ids)
+        idx = 0
         for config_id in config_ids:
             ConfigReader.set_config(config_id)
             corpus_id = SessionConfigReader.read_value(SetupRunner.corpus_id_key)
@@ -75,6 +77,8 @@ class SetupRunner:
             test_interpreted = ClassificationInterpreter.interpret_output(test_classified)
             score = ClassificationInterpreter.evaluate_output(test_interpreted)
             EvaluationHandler.add_evaluation(score)
+            idx = idx + 1
+            SessionLogger.log('Evaluated config # ' + str(idx) + ' / ' + str(n_configs) + ' .')
         evaluations = EvaluationHandler.load_evaluations()
         evaluations.sort_values(by=[SetupRunner.column_score])
         return evaluations
