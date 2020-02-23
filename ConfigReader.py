@@ -61,7 +61,7 @@ class ConfigReader:
     @staticmethod
     def set_config(config_json):
         with open(ConfigReader.config_name, 'w+', encoding='utf8') as json_file:
-            json.dump(config_json, json_file, ensure_ascii=False)
+            json.dump(config_json, json_file, ensure_ascii=False, indent=4)
 
     # returns the config as json
     @staticmethod

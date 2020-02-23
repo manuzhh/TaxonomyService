@@ -60,7 +60,7 @@ class SetupRunner:
         n_configs = len(config_ids)
         idx = 0
         for config_id in config_ids:
-            ConfigReader.set_config(config_id)
+            ConfigReader.set_session_config_id(config_id)
             corpus_id = SessionConfigReader.read_value(SetupRunner.corpus_id_key)
             SetupRunner.run_setup(run_import=run_import, run_preprocessing=run_preprocessing, run_vectorization=run_vectorization, run_classification=0)
             Storage.delete_h5_model(SessionConfigReader.read_value(SetupRunner.keras_nn_model_id_key))
