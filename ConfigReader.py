@@ -10,6 +10,7 @@ class ConfigReader:
     config_template_id_key = 'config-template-id'
     config_builder_type_key = 'config-builder-type'
     configs_location_key = 'configs-location'
+    best_performing = 'best_performing'
 
     # expects a keyword, contained in the config
     # returns the corresponding value from the config
@@ -82,3 +83,9 @@ class ConfigReader:
         conf = ConfigReader.get_config()
         conf[ConfigReader.config_id_key] = config_id
         ConfigReader.set_config(conf)
+
+    # expects a session config id
+    # sets the config's session config id
+    @staticmethod
+    def set_to_best_performing():
+        ConfigReader.set_session_config_id(ConfigReader.best_performing)

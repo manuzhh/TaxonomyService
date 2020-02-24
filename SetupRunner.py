@@ -52,6 +52,27 @@ class SetupRunner:
             df = ClassificationInterpreter.create_out_vectors(df, storage_level=1, storage_name=corpus_id)
             Classifier.create_model(df)
 
+    # runs a single test with the current config settings
+    # returns a data frame, containing the results
+    @staticmethod
+    def run_classification_test():
+        Storage.delete_h5_model(SessionConfigReader.read_value(SetupRunner.keras_nn_model_id_key))
+        corpus_id = SessionConfigReader.read_value(SetupRunner.corpus_id_key)
+        vectorized_df_id = corpus_id + SetupRunner.ext_vectorized
+        vectorized_df = Storage.load_pd_frame(vectorized_df_id)
+        TrainTestSplitter.split_train_test(identifier=vectorized_df_id, data_frame=vectorized_df)
+        train_df_id = vectorized_df_id + SetupRunner.ext_train
+        train = Storage.load_pd_frame(train_df_id)
+        test_df_id = vectorized_df_id + SetupRunner.ext_test
+        test = Storage.load_pd_frame(test_df_id)
+        train_classification_outs = ClassificationInterpreter.create_out_vectors(train)
+        Classifier.create_model(train_classification_outs)
+        test_classified = Classifier.classify(test)
+        test_interpreted = ClassificationInterpreter.interpret_output(test_classified)
+        score = ClassificationInterpreter.evaluate_output(test_interpreted)
+        EvaluationHandler.add_evaluation(score)
+        return test_interpreted
+
     # runs config tests
     # returns an evaluation frame
     @staticmethod
@@ -63,24 +84,20 @@ class SetupRunner:
         while idx < len(config_ids):
             config_id = config_ids[idx]
             ConfigReader.set_session_config_id(config_id)
-            corpus_id = SessionConfigReader.read_value(SetupRunner.corpus_id_key)
+
             SetupRunner.run_setup(run_import=run_import, run_preprocessing=run_preprocessing, run_vectorization=run_vectorization, run_classification=0)
-            Storage.delete_h5_model(SessionConfigReader.read_value(SetupRunner.keras_nn_model_id_key))
+
+            res = SetupRunner.run_classification_test()
+
+            score = ClassificationInterpreter.evaluate_output(res)
+
+            corpus_id = SessionConfigReader.read_value(SetupRunner.corpus_id_key)
             vectorized_df_id = corpus_id + SetupRunner.ext_vectorized
-            df = Storage.load_pd_frame(vectorized_df_id)
-            TrainTestSplitter.split_train_test(identifier=vectorized_df_id, data_frame=df)
             train_df_id = vectorized_df_id + SetupRunner.ext_train
-            train = Storage.load_pd_frame(train_df_id)
             test_df_id = vectorized_df_id + SetupRunner.ext_test
-            test = Storage.load_pd_frame(test_df_id)
-            train_classification_outs = ClassificationInterpreter.create_out_vectors(train)
-            Classifier.create_model(train_classification_outs)
-            test_classified = Classifier.classify(test)
-            test_interpreted = ClassificationInterpreter.interpret_output(test_classified)
-            score = ClassificationInterpreter.evaluate_output(test_interpreted)
-            EvaluationHandler.add_evaluation(score)
             Storage.delete_pd_frame(train_df_id)
             Storage.delete_pd_frame(test_df_id)
+
             idx = idx + 1
             SessionLogger.log('Evaluated config # ' + str(idx) + ' / ' + str(n_configs) + ' . Score: ' + str(score))
         EvaluationHandler.sort()
