@@ -83,8 +83,8 @@ class SetupRunner:
             Storage.delete_pd_frame(test_df_id)
             idx = idx + 1
             SessionLogger.log('Evaluated config # ' + str(idx) + ' / ' + str(n_configs) + ' . Score: ' + str(score))
+        EvaluationHandler.sort()
         evaluations = EvaluationHandler.load_evaluations()
-        evaluations.sort_values(by=[SetupRunner.column_score])
         return evaluations
 
     # expects a list of config_ids

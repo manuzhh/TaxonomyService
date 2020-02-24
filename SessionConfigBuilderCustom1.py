@@ -799,7 +799,7 @@ class SessionConfigBuilderCustom1:
     @staticmethod
     def create_session_configs(configs_location=None, delete_old_configs=1):
         if configs_location is None:
-            configs_location = SessionConfigBuilderCustom1.configs_location
+            configs_location = ConfigReader.get_configs_location()
         if delete_old_configs:
             Storage.delete_location(configs_location)
 
@@ -849,7 +849,7 @@ class SessionConfigBuilderCustom1:
     # returns the configs location
     @staticmethod
     def get_configs_location():
-        return SessionConfigBuilderCustom1.configs_location
+        return ConfigReader.get_configs_location()
 
     # returns the general config name
     @staticmethod

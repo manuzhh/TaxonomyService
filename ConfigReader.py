@@ -9,6 +9,7 @@ class ConfigReader:
     session_id_key = 'session-id'
     config_template_id_key = 'config-template-id'
     config_builder_type_key = 'config-builder-type'
+    configs_location_key = 'configs-location'
 
     # expects a keyword, contained in the config
     # returns the corresponding value from the config
@@ -55,6 +56,11 @@ class ConfigReader:
     @staticmethod
     def get_config_builder_type():
         return ConfigReader.read_value(ConfigReader.config_builder_type_key)
+
+    # returns configs location
+    @staticmethod
+    def get_configs_location():
+        return ConfigReader.read_value(ConfigReader.configs_location_key)
 
     # expects a config in json format
     # sets the config

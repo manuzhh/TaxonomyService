@@ -1,5 +1,6 @@
 from Storage import Storage
 from ConfigReader import ConfigReader
+from SessionConfigReader import SessionConfigReader
 from datetime import datetime
 import pandas as pd
 
@@ -29,7 +30,7 @@ class EvaluationHandler:
     # returns pandas data frame containing evaluations for session id or current session
     @staticmethod
     def load_evaluations(session_id=None):
-        return Storage.load_pd_frame(EvaluationHandler.evaluations_id, session_id)
+        return Storage.load_pd_frame(EvaluationHandler.evaluations_id, session_id=session_id)
 
     # optionally expects a session id
     # clears evaluations for session id or current session
@@ -61,3 +62,22 @@ class EvaluationHandler:
                 res_frame = res_frame.append(new_rank_frame, sort=False)
                 highest_score = score
         return res_frame
+
+    # sorts the stored evaluations data frame by rank (descending)
+    @staticmethod
+    def sort(session_id=None):
+        evals = EvaluationHandler.load_evaluations(session_id=session_id)
+        evals.sort_values(by=[EvaluationHandler.score_col], ascending=False)
+        Storage.store_pd_frame(evals, EvaluationHandler.evaluations_id, session_id=session_id)
+
+    # sets the currently best performing config, based on the evaluations
+    @staticmethod
+    def set_best_performing(eval_session_id=None):
+        evals = EvaluationHandler.load_evaluations(session_id=eval_session_id)
+        evals.sort_values(by=[EvaluationHandler.score_col], ascending=False)
+        if evals.size > 0:
+            session_id = evals.at[0, EvaluationHandler.session_id_col][0]
+            config_id = evals.at[0, EvaluationHandler.config_id_col][0]
+            SessionConfigReader.set_best_performing_by_ids(session_id=session_id, config_id=config_id)
+        else:
+            SessionConfigReader.set_best_performing_by_ids()

@@ -108,3 +108,35 @@ class SessionConfigReader:
             return DiskStorageSessionConfigReader.get_config(session_id, config_template_id)
         else:
             return {}
+
+    # expects a json object
+    # sets the currently best performing config
+    @staticmethod
+    def set_best_performing(json_f):
+        db_type = ConfigReader.get_db_type()
+        if db_type == SessionConfigReader.db_type_fs:
+            DiskStorageSessionConfigReader.set_best_performing(json_f)
+
+    # expects a session id and a config id
+    # sets the currently best performing config
+    @staticmethod
+    def set_best_performing_by_ids(session_id=None, config_id=None):
+        conf_keys = list()
+        conf_keys.append(SessionConfigReader.database_type_key)
+        conf_keys.append(SessionConfigReader.config_id_key)
+        conf_keys.append(SessionConfigReader.session_id_key)
+        conf_values = ConfigReader.read_values(conf_keys)
+        db_type = conf_values[0]
+        if config_id is None:
+            config_id = conf_values[1]
+        if session_id is None:
+            session_id = conf_values[2]
+        if db_type == SessionConfigReader.db_type_fs:
+            DiskStorageSessionConfigReader.set_best_performing_by_ids(session_id, config_id)
+
+    # returns the currently best performing config
+    @staticmethod
+    def get_best_performing():
+        db_type = ConfigReader.get_db_type()
+        if db_type == SessionConfigReader.db_type_fs:
+            return DiskStorageSessionConfigReader.get_best_performing()

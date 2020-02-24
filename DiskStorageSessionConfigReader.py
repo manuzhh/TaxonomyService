@@ -7,11 +7,15 @@ class DiskStorageSessionConfigReader:
 
     sessions_dir = 'sessions'
     json_ext = '.json'
+    best_performing_key = 'best_performing'
+    best_performing_f_name = 'session_conf_top_performing'
 
     # expects session id and config id
     # returns the session config path
     @staticmethod
     def get_config_path(session_id, config_id, create_sub_dirs=0, root_path=None):
+        if session_id == DiskStorageSessionConfigReader.best_performing_key:
+            return DiskStorageSessionConfigReader.best_performing_f_name
         sessions_path = DiskStorageSessionConfigReader.sessions_dir
         session_path = os.path.join(sessions_path, session_id)
         config_id = DiskStorageMisc.get_identifier_path(config_id, create_sub_dirs=create_sub_dirs, root_path=root_path)
@@ -68,3 +72,23 @@ class DiskStorageSessionConfigReader:
                 return json.load(json_file)
         else:
             return {}
+
+    # expects a json object
+    # sets the currently best performing config
+    @staticmethod
+    def set_best_performing(json_f):
+        config_path = DiskStorageSessionConfigReader.best_performing_f_name
+        with open(config_path, 'w+', encoding='utf8') as json_file:
+            json.dump(json_f, json_file, ensure_ascii=False, indent=4)
+
+    # expects a session id and a config id
+    # sets the currently best performing config
+    @staticmethod
+    def set_best_performing_by_ids(session_id, config_id):
+        conf = DiskStorageSessionConfigReader.get_config(session_id, config_id)
+        DiskStorageSessionConfigReader.set_best_performing(conf)
+
+    # returns the currently best performing config
+    @staticmethod
+    def get_best_performing():
+        return DiskStorageSessionConfigReader.get_config('xyz', DiskStorageSessionConfigReader.best_performing_key)
