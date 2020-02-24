@@ -1,0 +1,19 @@
+- Weitere Parameter-Einstellungen testen, um einen höheren score zu erzielen
+
+- Statistiken der model creation Funktionen der Model-Frameworks auswerten (bspw. loss, accuracy beim Trainieren des keras-Modells)
+
+- Weiteren TrainTestSplitter schreiben (auf Basis von Kategorien)
+- Category Erweiterung ohne erneutes Training testen
+
+- REST-Schnittstelle erweitern (create models, train, add category...)
+
+- Weitere Classifier implementieren und testen
+- Weitere Vectorizer implementieren und testen
+- Weitere Corpora suchen und testen
+
+- Typing
+- Error Handling
+- Projektstruktur
+- Migrieren von Strings am Anfang der Python Files in Extra Config
+
+- Service für CoreMedia Anbindung schreiben
