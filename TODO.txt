@@ -11,10 +11,11 @@
 - Weitere Vectorizer implementieren und testen
 - Weitere Corpora suchen und testen
 
-- Parameter Typing
-- Error Handling
-- Projektstruktur
-- Migrieren von Strings am Anfang der Python Files in Extra Config
+- Weitere "Vererbungs-" b.z.w. "Interface-Hirarchie" einführen, um Vererbung von den konkreten Implementierungen der "Interfaces" zu ermöglichen (und diese somit für Außenstehende einfacher erweiterbar zu machen)
+- Umfassenderes Error Handling
+- Migrieren von Identifizierungs-Strings am Anfang der python files in Extra Config überführen
+- Parameter Typing konsequent umsetzen
+- Projektstruktur überarbeiten (file locations und Ordner-Struktur)
 - Refactoring von unglücklichen Namensgebungen
 
 - Service für CoreMedia-Anbindung schreiben

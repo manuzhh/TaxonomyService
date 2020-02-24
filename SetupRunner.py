@@ -56,21 +56,29 @@ class SetupRunner:
     # returns a data frame, containing the results
     @staticmethod
     def run_classification_test():
-        Storage.delete_h5_model(SessionConfigReader.read_value(SetupRunner.keras_nn_model_id_key))
         corpus_id = SessionConfigReader.read_value(SetupRunner.corpus_id_key)
         vectorized_df_id = corpus_id + SetupRunner.ext_vectorized
+        train_df_id = vectorized_df_id + SetupRunner.ext_train
+        test_df_id = vectorized_df_id + SetupRunner.ext_test
+
+        Storage.delete_pd_frame(train_df_id)
+        Storage.delete_pd_frame(test_df_id)
+        Storage.delete_h5_model(SessionConfigReader.read_value(SetupRunner.keras_nn_model_id_key))
+
         vectorized_df = Storage.load_pd_frame(vectorized_df_id)
         TrainTestSplitter.split_train_test(identifier=vectorized_df_id, data_frame=vectorized_df)
         train_df_id = vectorized_df_id + SetupRunner.ext_train
         train = Storage.load_pd_frame(train_df_id)
         test_df_id = vectorized_df_id + SetupRunner.ext_test
         test = Storage.load_pd_frame(test_df_id)
+
         train_classification_outs = ClassificationInterpreter.create_out_vectors(train)
         Classifier.create_model(train_classification_outs)
         test_classified = Classifier.classify(test)
         test_interpreted = ClassificationInterpreter.interpret_output(test_classified)
         score = ClassificationInterpreter.evaluate_output(test_interpreted)
         EvaluationHandler.add_evaluation(score)
+
         return test_interpreted
 
     # runs config tests
@@ -91,13 +99,6 @@ class SetupRunner:
 
             score = ClassificationInterpreter.evaluate_output(res)
 
-            corpus_id = SessionConfigReader.read_value(SetupRunner.corpus_id_key)
-            vectorized_df_id = corpus_id + SetupRunner.ext_vectorized
-            train_df_id = vectorized_df_id + SetupRunner.ext_train
-            test_df_id = vectorized_df_id + SetupRunner.ext_test
-            Storage.delete_pd_frame(train_df_id)
-            Storage.delete_pd_frame(test_df_id)
-
             idx = idx + 1
             SessionLogger.log('Evaluated config # ' + str(idx) + ' / ' + str(n_configs) + ' . Score: ' + str(score))
         EvaluationHandler.sort()
@@ -105,7 +106,7 @@ class SetupRunner:
         return evaluations
 
     # expects a list of config_ids
-    # returns the list, sorted by config id values
+    # returns the list, sorted by config id index values
     @staticmethod
     def sort_config_list(config_list):
         conf_name = SessionConfigBuilder.get_configs_name()

@@ -48,6 +48,7 @@ class EvaluationHandler:
         else:
             for session_id in session_ids:
                 all_evals = all_evals.append(EvaluationHandler.load_evaluations(session_id=session_id), sort=False)
+
         highest_score = 0
         res_frame = pd.DataFrame()
         for index, row in all_evals.iterrows():
