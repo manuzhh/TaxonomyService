@@ -11,9 +11,10 @@
 - Weitere Vectorizer implementieren und testen
 - Weitere Corpora suchen und testen
 
-- Typing
+- Parameter Typing
 - Error Handling
 - Projektstruktur
 - Migrieren von Strings am Anfang der Python Files in Extra Config
+- Refactoring von unglücklichen Namensgebungen
 
-- Service für CoreMedia Anbindung schreiben
+- Service für CoreMedia-Anbindung schreiben

@@ -67,7 +67,7 @@ class EvaluationHandler:
     @staticmethod
     def sort(session_id=None):
         evals = EvaluationHandler.load_evaluations(session_id=session_id)
-        evals.sort_values(by=[EvaluationHandler.score_col], ascending=False)
+        evals = evals.sort_values(by=[EvaluationHandler.score_col], ascending=False)
         Storage.store_pd_frame(evals, EvaluationHandler.evaluations_id, session_id=session_id)
 
     # sets the currently best performing config, based on the evaluations
