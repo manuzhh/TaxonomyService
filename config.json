@@ -1,7 +1,7 @@
 {
     "database-type": "filesystem",
     "session-id": "session_001",
-    "config-id": "session_configs/conf1278",
+    "config-id": "session_configs/conf1287",
     "config-template-id": "default",
     "config-builder-type": "custom1",
     "configs-location": "session_configs"
