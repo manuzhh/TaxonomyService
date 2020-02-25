@@ -1,15 +1,17 @@
-- Weitere Parameter-Einstellungen testen, um einen höheren score zu erzielen
-
+- Weitere Parameter-Einstellungen testen
 - Statistiken der model creation Funktionen der Model-Frameworks auswerten (bspw. loss, accuracy beim Trainieren des keras-Modells)
+
+- Weitere Classifier implementieren und testen
+- Weitere Vectorizer implementieren und testen
+- Weitere Corpora suchen und testen
+
+- Mehrere Tests pro Einstellung machen, um mit dem Durchschnitt ein genaueres Ergebnis zu bekommen
 
 - Weiteren TrainTestSplitter schreiben (auf Basis von Kategorien)
 - Category Erweiterung ohne erneutes Training testen
 
 - REST-Schnittstelle erweitern (create models, train, add category...)
-
-- Weitere Classifier implementieren und testen
-- Weitere Vectorizer implementieren und testen
-- Weitere Corpora suchen und testen
+- Service für CoreMedia-Anbindung schreiben
 
 - Weitere "Vererbungs-" b.z.w. "Interface-Hirarchie" einführen, um Vererbung von den konkreten Implementierungen der "Interfaces" zu ermöglichen (und diese somit für Außenstehende einfacher erweiterbar zu machen)
 - Umfassenderes Error Handling
@@ -18,4 +20,3 @@
 - Projektstruktur überarbeiten (file locations und Ordner-Struktur)
 - Refactoring von unglücklichen Namensgebungen
 
-- Service für CoreMedia-Anbindung schreiben
