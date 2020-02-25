@@ -90,6 +90,8 @@ class SessionConfigBuilderCustom1:
                 conf_layers = list()
                 if SessionConfigBuilderCustom1.keras_nn_layers_key in new_conf:
                     conf_layers = new_conf[SessionConfigBuilderCustom1.keras_nn_layers_key]
+                output_dim = new_conf[SessionConfigBuilderCustom1.keras_nn_default_output_layer_size_key][0]
+                new_conf.pop(SessionConfigBuilderCustom1.keras_nn_default_output_layer_size_key)
                 # individual layers
                 idx = 0
                 n_custom_layers = len(conf_layers)
@@ -97,8 +99,11 @@ class SessionConfigBuilderCustom1:
                     new_c_conf = copy.deepcopy(new_conf)
                     layers_list = copy.deepcopy(conf_layers)
                     layers = layers_list.pop(idx)
-                    new_c_conf[SessionConfigBuilderCustom1.keras_nn_layers_key] = [layers]
-                    new_configs.append(new_c_conf)
+                    last_layer = layers[len(layers)-1]
+                    last_layer_out_dim = last_layer[1]
+                    if last_layer_out_dim == output_dim:
+                        new_c_conf[SessionConfigBuilderCustom1.keras_nn_layers_key] = [layers]
+                        new_configs.append(new_c_conf)
                     idx = idx + 1
                 # constructed layers
                 if (
@@ -119,8 +124,6 @@ class SessionConfigBuilderCustom1:
                     new_conf.pop(SessionConfigBuilderCustom1.keras_nn_default_layer_type_key)
                     def_layer_counts = new_conf[SessionConfigBuilderCustom1.keras_nn_default_layer_count_key]
                     new_conf.pop(SessionConfigBuilderCustom1.keras_nn_default_layer_count_key)
-                    output_dim = new_conf[SessionConfigBuilderCustom1.keras_nn_default_output_layer_size_key][0]
-                    new_conf.pop(SessionConfigBuilderCustom1.keras_nn_default_output_layer_size_key)
                     for activation in def_activations:
                         for out_activation in def_out_activations:
                             for layer_size in def_layer_sizes:
@@ -143,20 +146,7 @@ class SessionConfigBuilderCustom1:
                                         new_c_conf[SessionConfigBuilderCustom1.keras_nn_layers_key] = [layers]
                                         new_configs.append(new_c_conf)
                 else:
-                    if n_custom_layers == 0:
-                        if SessionConfigBuilderCustom1.keras_nn_layers_key in new_conf:
-                            new_conf.pop(SessionConfigBuilderCustom1.keras_nn_layers_key)
-                        if SessionConfigBuilderCustom1.keras_nn_default_activation_key in new_conf:
-                            new_conf.pop(SessionConfigBuilderCustom1.keras_nn_default_activation_key)
-                        if SessionConfigBuilderCustom1.keras_nn_default_output_activation_key in new_conf:
-                            new_conf.pop(SessionConfigBuilderCustom1.keras_nn_default_output_activation_key)
-                        if SessionConfigBuilderCustom1.keras_nn_default_layer_size_key in new_conf:
-                            new_conf.pop(SessionConfigBuilderCustom1.keras_nn_default_layer_size_key)
-                        if SessionConfigBuilderCustom1.keras_nn_default_layer_count_key in new_conf:
-                            new_conf.pop(SessionConfigBuilderCustom1.keras_nn_default_layer_count_key)
-                        if conf_has_output_dim:
-                            new_conf.pop(SessionConfigBuilderCustom1.keras_nn_default_output_layer_size_key)
-                        new_configs.append(new_conf)
+                    new_configs.append(new_conf)
         return new_configs
 
     # expects a config json list

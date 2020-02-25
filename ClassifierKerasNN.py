@@ -1,5 +1,5 @@
 from keras.models import Sequential
-from keras.layers import Dense, Activation, LeakyReLU
+from keras.layers import Dense, Conv1D, Activation, LeakyReLU
 from Storage import Storage
 from SessionLogger import SessionLogger
 from SessionConfigReader import SessionConfigReader
@@ -19,6 +19,7 @@ class ClassifierKerasNN:
     epochs_key = 'keras_nn_epochs'
     batch_size_key = 'keras_nn_batch_size'
     layer_type_dense = 'dense'
+    layer_type_conv1d = 'conv1d'
     class_out_col_name = 'classification output'
     ext_classified = '_classified'
 
@@ -59,6 +60,17 @@ class ClassifierKerasNN:
 
         return model_id
 
+    # expects a model, a layer type, a layer size and optionally an input dimension
+    # adds a layer to the model
+    # returns the model
+    @staticmethod
+    def add_layer(model, layer_type, layer_size, input_dim=None):
+        if layer_type == ClassifierKerasNN.layer_type_conv1d:
+            model.add(Conv1D(layer_size, input_dim=input_dim))
+        if layer_type == ClassifierKerasNN.layer_type_dense:
+            model.add(Dense(layer_size, input_dim=input_dim))
+        return model
+
     # expects pandas data frame, optionally an identifier for the new model and column names referencing the vectors used for training
     # creates a neural network model and trains the model with the vectors from the the data frame
     # returns the identifier of the new model
@@ -83,25 +95,25 @@ class ClassifierKerasNN:
 
         # add layers to the model
         model = Sequential()
-        n_layer = 0
+        layer_n = 0
         for layer in layers:
             layer_type = layer[0][0]
             layer_size = layer[1][0]
             layer_activation_type = layer[2][0]
             if layer_type == ClassifierKerasNN.layer_type_dense:
-                if n_layer == 0:
-                        model.add(Dense(layer_size, input_dim=dimension))
-                        if layer_activation_type == 'LeakyReLU':
-                            model.add(LeakyReLU(alpha=0.3))
-                        else:
-                            model.add(Activation(layer_activation_type))
-                else:
+                if layer_n == 0:
+                    model = ClassifierKerasNN.add_layer(model, layer_type, layer_size, input_dim=dimension)
                     if layer_activation_type == 'LeakyReLU':
-                        model.add(Dense(layer_size))
                         model.add(LeakyReLU(alpha=0.3))
                     else:
-                        model.add(Dense(layer_size, activation=layer_activation_type))
-            n_layer = n_layer+1
+                        model.add(Activation(layer_activation_type))
+                else:
+                    model = ClassifierKerasNN.add_layer(model, layer_type, layer_size)
+                    if layer_activation_type == 'LeakyReLU':
+                        model.add(LeakyReLU(alpha=0.3))
+                    else:
+                        model.add(Activation(layer_activation_type))
+            layer_n = layer_n + 1
 
         # compile the model
         model.compile(loss=loss, optimizer=optimizer, metrics=[metrics])
