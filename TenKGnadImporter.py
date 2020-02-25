@@ -32,7 +32,7 @@ class TenKGnadImporter():
         head, f_name = os.path.split(csv_path)
         identifier = f_name.split('.')[0]
         Storage.store_pd_frame(df, identifier)
-        SessionLogger.log('TenKGnad Corpus (' + str(len(df.index)) + ' entries) has been imported into \'' + identifier + '\' (columns: \'' + TenKGnadImporter.category_name + '\', \'' + TenKGnadImporter.text_name + '\')')
+        SessionLogger.log('TenKGnad Corpus (' + str(len(df.index)) + ' entries) has been imported into \'' + identifier + '\' (columns: \'' + TenKGnadImporter.category_name + '\', \'' + TenKGnadImporter.text_name + '\').')
         category_set = set(category_list)
         category_list = list(category_set)
         CategoryListHandler.set_categories(category_list)

@@ -41,9 +41,9 @@ class EvaluationHandler:
         evaluation_frame = Storage.load_pd_frame(EvaluationHandler.evaluations_id, session_id=session_id)
         timestamp_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         evaluation_frame.at[len(evaluation_frame), EvaluationHandler.timestamp_col] = timestamp_str
-        evaluation_frame.at[len(evaluation_frame), EvaluationHandler.session_id_col] = session_id
-        evaluation_frame.at[len(evaluation_frame), EvaluationHandler.config_id_col] = config_id
-        evaluation_frame.at[len(evaluation_frame), EvaluationHandler.score_col] = score
+        evaluation_frame.at[len(evaluation_frame)-1, EvaluationHandler.session_id_col] = session_id
+        evaluation_frame.at[len(evaluation_frame)-2, EvaluationHandler.config_id_col] = config_id
+        evaluation_frame.at[len(evaluation_frame)-3, EvaluationHandler.score_col] = score
         Storage.store_pd_frame(evaluation_frame, EvaluationHandler.evaluations_id, session_id=session_id)
 
     # optionally expects a session id
