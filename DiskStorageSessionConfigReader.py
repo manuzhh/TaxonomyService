@@ -1,6 +1,7 @@
 import os.path
 import json
 from DiskStorageMisc import DiskStorageMisc
+from SessionLogger import SessionLogger
 
 
 class DiskStorageSessionConfigReader:
@@ -81,6 +82,8 @@ class DiskStorageSessionConfigReader:
         config_path = DiskStorageSessionConfigReader.best_performing_f_name
         with open(config_path, 'w+', encoding='utf8') as json_file:
             json.dump(json_f, json_file, ensure_ascii=False, indent=4)
+        SessionLogger.log('Changed the project\'s \'best_performing\' session config.')
+
 
     # expects a session id and a config id
     # sets the currently best performing config

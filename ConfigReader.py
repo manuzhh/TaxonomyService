@@ -1,4 +1,5 @@
 import json
+from SessionLogger import SessionLogger
 
 
 class ConfigReader:
@@ -83,6 +84,7 @@ class ConfigReader:
         conf = ConfigReader.get_config()
         conf[ConfigReader.config_id_key] = config_id
         ConfigReader.set_config(conf)
+        SessionLogger.log('Set the project\'s session config to \'' + config_id + '\'.')
 
     # expects a session config id
     # sets the config's session config id
