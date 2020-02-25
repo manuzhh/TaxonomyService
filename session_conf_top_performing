@@ -65,7 +65,7 @@
         "keras_nn"
     ],
     "keras_nn_model_id": [
-        "tenkgnad_keras_nn_001"
+        "tenkgnad_keras_nn_002"
     ],
     "keras_nn_layers": [
         [
@@ -96,7 +96,7 @@
                     "dense"
                 ],
                 [
-                    100
+                    9
                 ],
                 [
                     "softmax"
@@ -105,7 +105,7 @@
         ]
     ],
     "keras_nn_loss": [
-        "cosine_proximity"
+        "hinge"
     ],
     "keras_nn_optimizer": [
         "adam"
@@ -114,15 +114,15 @@
         "accuracy"
     ],
     "keras_nn_epochs": [
-        4
+        10
     ],
     "keras_nn_batch_size": [
         256
     ],
     "classification_interpreter": [
-        "custom1"
+        "custom2"
     ],
-    "similarity_function": [
-        "euclidean_distance"
+    "classification_interpreter_output_threshold": [
+        0.66
     ]
 }

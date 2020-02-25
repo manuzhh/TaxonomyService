@@ -16,10 +16,11 @@ class DiskStorageSessionConfigReader:
     def get_config_path(session_id, config_id, create_sub_dirs=0, root_path=None):
         if config_id == DiskStorageSessionConfigReader.best_performing:
             return DiskStorageSessionConfigReader.best_performing_f_name
-        sessions_path = DiskStorageSessionConfigReader.sessions_dir
-        session_path = os.path.join(sessions_path, session_id)
-        config_id = DiskStorageMisc.get_identifier_path(config_id, create_sub_dirs=create_sub_dirs, root_path=root_path)
-        return os.path.join(session_path, config_id + DiskStorageSessionConfigReader.json_ext)
+        else:
+            sessions_path = DiskStorageSessionConfigReader.sessions_dir
+            session_path = os.path.join(sessions_path, session_id)
+            config_id = DiskStorageMisc.get_identifier_path(config_id, create_sub_dirs=create_sub_dirs, root_path=root_path)
+            return os.path.join(session_path, config_id + DiskStorageSessionConfigReader.json_ext)
 
     # expects a keyword, contained in the config, a session id and a config_id
     # returns the corresponding value from the config

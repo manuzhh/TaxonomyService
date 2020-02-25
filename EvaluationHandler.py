@@ -40,10 +40,11 @@ class EvaluationHandler:
         config_id = ConfigReader.get_config_id()
         evaluation_frame = Storage.load_pd_frame(EvaluationHandler.evaluations_id, session_id=session_id)
         timestamp_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        evaluation_frame.at[len(evaluation_frame), EvaluationHandler.timestamp_col] = timestamp_str
-        evaluation_frame.at[len(evaluation_frame)-1, EvaluationHandler.session_id_col] = session_id
-        evaluation_frame.at[len(evaluation_frame)-2, EvaluationHandler.config_id_col] = config_id
-        evaluation_frame.at[len(evaluation_frame)-3, EvaluationHandler.score_col] = score
+        row = len(evaluation_frame)
+        evaluation_frame.at[row, EvaluationHandler.timestamp_col] = timestamp_str
+        evaluation_frame.at[row, EvaluationHandler.session_id_col] = session_id
+        evaluation_frame.at[row, EvaluationHandler.config_id_col] = config_id
+        evaluation_frame.at[row, EvaluationHandler.score_col] = score
         Storage.store_pd_frame(evaluation_frame, EvaluationHandler.evaluations_id, session_id=session_id)
 
     # optionally expects a session id
@@ -77,16 +78,13 @@ class EvaluationHandler:
             session_id = all_evals.at[i, EvaluationHandler.session_id_col]
             conf_id = all_evals.at[i, EvaluationHandler.config_id_col]
             conf = SessionConfigReader.get_config(session_id=session_id, config_id=conf_id)
-            idx = 0
             for key in EvaluationHandler.additional_columns:
                 if key in conf:
                     value = conf[key][0]
                 else:
                     value = ''
-                if key not in all_evals:
-                    all_evals[key] = ''
-                all_evals.at[idx, key] = value
-                idx = idx + 1
+                all_evals.at[i, key] = ''
+                all_evals.at[i, key] = value
             i = i + 1
 
         if remove_cols is not None:
@@ -100,16 +98,13 @@ class EvaluationHandler:
                 session_id = all_evals.at[i, EvaluationHandler.session_id_col]
                 conf_id = all_evals.at[i, EvaluationHandler.config_id_col]
                 conf = SessionConfigReader.get_config(session_id=session_id, config_id=conf_id)
-                idx = 0
                 for key in add_cols:
                     if key in conf:
                         value = conf[key][0]
                     else:
                         value = ''
-                    if key not in all_evals:
-                        all_evals[key] = ''
-                    all_evals.at[idx, key] = value
-                    idx = idx + 1
+                    all_evals.at[i, key] = ''
+                    all_evals.at[i, key] = value
                 i = i + 1
 
         return all_evals
