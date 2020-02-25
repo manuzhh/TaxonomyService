@@ -177,12 +177,9 @@ class SessionConfigBuilderCustom1:
                 idx = 0
                 while idx < len(conf_batchsizes):
                     new_conf = copy.deepcopy(conf)
-                    if idx > 0:
-                        batchsizes = copy.deepcopy(conf_batchsizes)
-                        batchsize = batchsizes.pop(idx)
-                        new_conf[SessionConfigBuilderCustom1.keras_nn_batch_size_key] = [batchsize]
-                    else:
-                        new_conf[SessionConfigBuilderCustom1.keras_nn_batch_size_key] = [new_conf[SessionConfigBuilderCustom1.keras_nn_batch_size_key][0]]
+                    batchsizes = copy.deepcopy(conf_batchsizes)
+                    batchsize = batchsizes.pop(idx)
+                    new_conf[SessionConfigBuilderCustom1.keras_nn_batch_size_key] = [batchsize]
                     new_configs.append(new_conf)
                     idx = idx + 1
         return new_configs
@@ -205,12 +202,9 @@ class SessionConfigBuilderCustom1:
                 idx = 0
                 while idx < len(conf_epochs_list):
                     new_conf = copy.deepcopy(conf)
-                    if idx > 0:
-                        epochs_list = copy.deepcopy(conf_epochs_list)
-                        epochs = epochs_list.pop(idx)
-                        new_conf[SessionConfigBuilderCustom1.keras_nn_epochs_key] = [epochs]
-                    else:
-                        new_conf[SessionConfigBuilderCustom1.keras_nn_epochs_key] = [new_conf[SessionConfigBuilderCustom1.keras_nn_epochs_key][0]]
+                    epochs_list = copy.deepcopy(conf_epochs_list)
+                    epochs = epochs_list.pop(idx)
+                    new_conf[SessionConfigBuilderCustom1.keras_nn_epochs_key] = [epochs]
                     new_configs.append(new_conf)
                     idx = idx + 1
         return new_configs
@@ -233,12 +227,9 @@ class SessionConfigBuilderCustom1:
                 idx = 0
                 while idx < len(conf_metrics_list):
                     new_conf = copy.deepcopy(conf)
-                    if idx > 0:
-                        metrics_list = copy.deepcopy(conf_metrics_list)
-                        metrics = metrics_list.pop(idx)
-                        new_conf[SessionConfigBuilderCustom1.keras_nn_metrics_key] = [metrics]
-                    else:
-                        new_conf[SessionConfigBuilderCustom1.keras_nn_metrics_key] = [new_conf[SessionConfigBuilderCustom1.keras_nn_metrics_key][0]]
+                    metrics_list = copy.deepcopy(conf_metrics_list)
+                    metrics = metrics_list.pop(idx)
+                    new_conf[SessionConfigBuilderCustom1.keras_nn_metrics_key] = [metrics]
                     new_configs.append(new_conf)
                     idx = idx + 1
         return new_configs
@@ -261,12 +252,9 @@ class SessionConfigBuilderCustom1:
                 idx = 0
                 while idx < len(conf_optimizers):
                     new_conf = copy.deepcopy(conf)
-                    if idx > 0:
-                        optimizers = copy.deepcopy(conf_optimizers)
-                        optimizer = optimizers.pop(idx)
-                        new_conf[SessionConfigBuilderCustom1.keras_nn_optimizer_key] = [optimizer]
-                    else:
-                        new_conf[SessionConfigBuilderCustom1.keras_nn_optimizer_key] = [new_conf[SessionConfigBuilderCustom1.keras_nn_optimizer_key][0]]
+                    optimizers = copy.deepcopy(conf_optimizers)
+                    optimizer = optimizers.pop(idx)
+                    new_conf[SessionConfigBuilderCustom1.keras_nn_optimizer_key] = [optimizer]
                     new_configs.append(new_conf)
                     idx = idx + 1
         return new_configs
@@ -289,12 +277,9 @@ class SessionConfigBuilderCustom1:
                 idx = 0
                 while idx < len(conf_loss_functions):
                     new_conf = copy.deepcopy(conf)
-                    if idx > 0:
-                        loss_functions = copy.deepcopy(conf_loss_functions)
-                        loss_function = loss_functions.pop(idx)
-                        new_conf[SessionConfigBuilderCustom1.keras_nn_loss_key] = [loss_function]
-                    else:
-                        new_conf[SessionConfigBuilderCustom1.keras_nn_loss_key] = [new_conf[SessionConfigBuilderCustom1.keras_nn_loss_key][0]]
+                    loss_functions = copy.deepcopy(conf_loss_functions)
+                    loss_function = loss_functions.pop(idx)
+                    new_conf[SessionConfigBuilderCustom1.keras_nn_loss_key] = [loss_function]
                     new_configs.append(new_conf)
                     idx = idx + 1
         return new_configs
@@ -318,12 +303,9 @@ class SessionConfigBuilderCustom1:
                     idx = 0
                     while idx < len(conf_similarity_functions):
                         new_conf = copy.deepcopy(conf)
-                        if idx > 0:
-                            similarity_functions = copy.deepcopy(conf_similarity_functions)
-                            similarity_function = similarity_functions.pop(idx)
-                            new_conf[SessionConfigBuilderCustom1.similarity_function_key] = [similarity_function]
-                        else:
-                            new_conf[SessionConfigBuilderCustom1.similarity_function_key] = [new_conf[SessionConfigBuilderCustom1.similarity_function_key][0]]
+                        similarity_functions = copy.deepcopy(conf_similarity_functions)
+                        similarity_function = similarity_functions.pop(idx)
+                        new_conf[SessionConfigBuilderCustom1.similarity_function_key] = [similarity_function]
                         new_configs.append(new_conf)
                         idx = idx + 1
             else:
@@ -353,12 +335,9 @@ class SessionConfigBuilderCustom1:
                         idx = 0
                         while idx < len(conf_interpreter_thresholds):
                             new_conf = copy.deepcopy(conf)
-                            if idx > 0:
-                                interpreter_thresholds = copy.deepcopy(conf_interpreter_thresholds)
-                                interpreter_threshold = interpreter_thresholds.pop(idx)
-                                new_conf[SessionConfigBuilderCustom1.classification_interpreter_output_threshold_key] = [interpreter_threshold]
-                            else:
-                                new_conf[SessionConfigBuilderCustom1.classification_interpreter_output_threshold_key] = [new_conf[SessionConfigBuilderCustom1.classification_interpreter_output_threshold_key][0]]
+                            interpreter_thresholds = copy.deepcopy(conf_interpreter_thresholds)
+                            interpreter_threshold = interpreter_thresholds.pop(idx)
+                            new_conf[SessionConfigBuilderCustom1.classification_interpreter_output_threshold_key] = [interpreter_threshold]
                             new_configs.append(new_conf)
                             idx = idx + 1
                     else:
@@ -384,42 +363,31 @@ class SessionConfigBuilderCustom1:
                 idx = 0
                 while idx < len(conf_classification_interpreters):
                     new_conf = copy.deepcopy(conf)
-                    if idx > 0:
-                        classification_interpreters = copy.deepcopy(conf_classification_interpreters)
-                        classification_interpreter = classification_interpreters.pop(idx)
-                        new_conf[SessionConfigBuilderCustom1.classification_interpreter_key] = [classification_interpreter]
+                    classification_interpreters = copy.deepcopy(conf_classification_interpreters)
+                    classification_interpreter = classification_interpreters.pop(idx)
+                    new_conf[SessionConfigBuilderCustom1.classification_interpreter_key] = [classification_interpreter]
 
-                        if classifier_type == SessionConfigBuilderCustom1.classifier_keras_nn:
-                            if SessionConfigBuilderCustom1.keras_nn_default_output_layer_size_key in new_conf:
-                                keras_nn_default_output_layer_sizes = copy.deepcopy(conf[SessionConfigBuilderCustom1.keras_nn_default_output_layer_size_key])
-                                if len(keras_nn_default_output_layer_sizes) > idx:
-                                    keras_nn_default_output_layer_size = keras_nn_default_output_layer_sizes.pop(idx)
-                                else:
-                                    keras_nn_default_output_layer_size = keras_nn_default_output_layer_sizes.pop(0)
-                                new_conf[SessionConfigBuilderCustom1.keras_nn_default_output_layer_size_key] = [keras_nn_default_output_layer_size]
-                        else:
-                            if SessionConfigBuilderCustom1.keras_nn_default_output_layer_size_key in new_conf:
-                                new_conf.pop(SessionConfigBuilderCustom1.keras_nn_default_output_layer_size_key)
-
-                        if classifier_type == SessionConfigBuilderCustom1.classifier_keras_nn:
-                            keras_nn_model_ids = copy.deepcopy(conf[SessionConfigBuilderCustom1.keras_nn_model_id_key])
-                            if len(keras_nn_model_ids) > idx:
-                                keras_nn_model_id = keras_nn_model_ids.pop(idx)
+                    if classifier_type == SessionConfigBuilderCustom1.classifier_keras_nn:
+                        if SessionConfigBuilderCustom1.keras_nn_default_output_layer_size_key in new_conf:
+                            keras_nn_default_output_layer_sizes = copy.deepcopy(conf[SessionConfigBuilderCustom1.keras_nn_default_output_layer_size_key])
+                            if len(keras_nn_default_output_layer_sizes) > idx:
+                                keras_nn_default_output_layer_size = keras_nn_default_output_layer_sizes.pop(idx)
                             else:
-                                keras_nn_model_id = keras_nn_model_ids.pop(0)
-                            new_conf[SessionConfigBuilderCustom1.keras_nn_model_id_key] = [keras_nn_model_id]
-                        else:
-                            new_conf.pop(SessionConfigBuilderCustom1.keras_nn_model_id_key)
+                                keras_nn_default_output_layer_size = keras_nn_default_output_layer_sizes.pop(0)
+                            new_conf[SessionConfigBuilderCustom1.keras_nn_default_output_layer_size_key] = [keras_nn_default_output_layer_size]
                     else:
-                        if classifier_type == SessionConfigBuilderCustom1.classifier_keras_nn:
-                            if SessionConfigBuilderCustom1.keras_nn_default_output_layer_size_key in new_conf:
-                                new_conf[SessionConfigBuilderCustom1.keras_nn_default_output_layer_size_key] = [new_conf[SessionConfigBuilderCustom1.keras_nn_default_output_layer_size_key][0]]
-                            new_conf[SessionConfigBuilderCustom1.keras_nn_model_id_key] = [new_conf[SessionConfigBuilderCustom1.keras_nn_model_id_key][0]]
+                        if SessionConfigBuilderCustom1.keras_nn_default_output_layer_size_key in new_conf:
+                            new_conf.pop(SessionConfigBuilderCustom1.keras_nn_default_output_layer_size_key)
+
+                    if classifier_type == SessionConfigBuilderCustom1.classifier_keras_nn:
+                        keras_nn_model_ids = copy.deepcopy(conf[SessionConfigBuilderCustom1.keras_nn_model_id_key])
+                        if len(keras_nn_model_ids) > idx:
+                            keras_nn_model_id = keras_nn_model_ids.pop(idx)
                         else:
-                            if SessionConfigBuilderCustom1.keras_nn_default_output_layer_size_key in new_conf:
-                                new_conf.pop(SessionConfigBuilderCustom1.keras_nn_default_output_layer_size_key)
-                            new_conf.pop(SessionConfigBuilderCustom1.keras_nn_model_id_key)
-                        new_conf[SessionConfigBuilderCustom1.classification_interpreter_key] = [new_conf[SessionConfigBuilderCustom1.classification_interpreter_key][0]]
+                            keras_nn_model_id = keras_nn_model_ids.pop(0)
+                        new_conf[SessionConfigBuilderCustom1.keras_nn_model_id_key] = [keras_nn_model_id]
+                    else:
+                        new_conf.pop(SessionConfigBuilderCustom1.keras_nn_model_id_key)
                     new_configs.append(new_conf)
                     idx = idx + 1
             else:
@@ -443,20 +411,16 @@ class SessionConfigBuilderCustom1:
                 idx = 0
                 while idx < len(conf_wv2dvs):
                     new_conf = copy.deepcopy(conf)
-                    if idx > 0:
-                        wv2dvs = copy.deepcopy(conf_wv2dvs)
-                        wv2dv = wv2dvs.pop(idx)
-                        new_conf[SessionConfigBuilderCustom1.word_vec_to_doc_vec_key] = [wv2dv]
+                    wv2dvs = copy.deepcopy(conf_wv2dvs)
+                    wv2dv = wv2dvs.pop(idx)
+                    new_conf[SessionConfigBuilderCustom1.word_vec_to_doc_vec_key] = [wv2dv]
 
-                        feature_vec_dims = copy.deepcopy(conf[SessionConfigBuilderCustom1.feature_vec_dim_key])
-                        if len(feature_vec_dims) > idx:
-                            feature_vec_dim = feature_vec_dims.pop(idx)
-                        else:
-                            feature_vec_dim = feature_vec_dims.pop(0)
-                        new_conf[SessionConfigBuilderCustom1.feature_vec_dim_key] = [feature_vec_dim]
+                    feature_vec_dims = copy.deepcopy(conf[SessionConfigBuilderCustom1.feature_vec_dim_key])
+                    if len(feature_vec_dims) > idx:
+                        feature_vec_dim = feature_vec_dims.pop(idx)
                     else:
-                        new_conf[SessionConfigBuilderCustom1.word_vec_to_doc_vec_key] = [new_conf[SessionConfigBuilderCustom1.word_vec_to_doc_vec_key][0]]
-                        new_conf[SessionConfigBuilderCustom1.feature_vec_dim_key] = [new_conf[SessionConfigBuilderCustom1.feature_vec_dim_key][0]]
+                        feature_vec_dim = feature_vec_dims.pop(0)
+                    new_conf[SessionConfigBuilderCustom1.feature_vec_dim_key] = [feature_vec_dim]
                     new_configs.append(new_conf)
                     idx = idx + 1
             else:
@@ -483,12 +447,9 @@ class SessionConfigBuilderCustom1:
                     idx = 0
                     while idx < len(conf_w2v_model_worker_counts):
                         new_conf = copy.deepcopy(conf)
-                        if idx > 0:
-                            w2v_model_worker_counts = copy.deepcopy(conf_w2v_model_worker_counts)
-                            w2v_model_worker_count = w2v_model_worker_counts.pop(idx)
-                            new_conf[SessionConfigBuilderCustom1.word2vec_workers_key] = [w2v_model_worker_count]
-                        else:
-                            new_conf[SessionConfigBuilderCustom1.word2vec_workers_key] = [new_conf[SessionConfigBuilderCustom1.word2vec_workers_key][0]]
+                        w2v_model_worker_counts = copy.deepcopy(conf_w2v_model_worker_counts)
+                        w2v_model_worker_count = w2v_model_worker_counts.pop(idx)
+                        new_conf[SessionConfigBuilderCustom1.word2vec_workers_key] = [w2v_model_worker_count]
                         new_configs.append(new_conf)
                         idx = idx + 1
             else:
@@ -517,12 +478,9 @@ class SessionConfigBuilderCustom1:
                     idx = 0
                     while idx < len(conf_w2v_model_min_counts):
                         new_conf = copy.deepcopy(conf)
-                        if idx > 0:
-                            w2v_model_mincounts = copy.deepcopy(conf_w2v_model_min_counts)
-                            w2v_model_mincount = w2v_model_mincounts.pop(idx)
-                            new_conf[SessionConfigBuilderCustom1.word2vec_min_count_key] = [w2v_model_mincount]
-                        else:
-                            new_conf[SessionConfigBuilderCustom1.word2vec_min_count_key] = [new_conf[SessionConfigBuilderCustom1.word2vec_min_count_key][0]]
+                        w2v_model_mincounts = copy.deepcopy(conf_w2v_model_min_counts)
+                        w2v_model_mincount = w2v_model_mincounts.pop(idx)
+                        new_conf[SessionConfigBuilderCustom1.word2vec_min_count_key] = [w2v_model_mincount]
                         new_configs.append(new_conf)
                         idx = idx + 1
             else:
@@ -551,12 +509,9 @@ class SessionConfigBuilderCustom1:
                     idx = 0
                     while idx < len(conf_w2v_model_window_sizes):
                         new_conf = copy.deepcopy(conf)
-                        if idx > 0:
-                            w2v_model_window_sizes = copy.deepcopy(conf_w2v_model_window_sizes)
-                            w2v_model_window_size = w2v_model_window_sizes.pop(idx)
-                            new_conf[SessionConfigBuilderCustom1.word2vec_window_key] = [w2v_model_window_size]
-                        else:
-                            new_conf[SessionConfigBuilderCustom1.word2vec_window_key] = [new_conf[SessionConfigBuilderCustom1.word2vec_window_key][0]]
+                        w2v_model_window_sizes = copy.deepcopy(conf_w2v_model_window_sizes)
+                        w2v_model_window_size = w2v_model_window_sizes.pop(idx)
+                        new_conf[SessionConfigBuilderCustom1.word2vec_window_key] = [w2v_model_window_size]
                         new_configs.append(new_conf)
                         idx = idx + 1
             else:
@@ -585,12 +540,9 @@ class SessionConfigBuilderCustom1:
                     idx = 0
                     while idx < len(conf_w2v_model_sizes):
                         new_conf = copy.deepcopy(conf)
-                        if idx > 0:
-                            w2v_model_sizes = copy.deepcopy(conf_w2v_model_sizes)
-                            w2v_model_size = w2v_model_sizes.pop(idx)
-                            new_conf[SessionConfigBuilderCustom1.word2vec_size_key] = [w2v_model_size]
-                        else:
-                            new_conf[SessionConfigBuilderCustom1.word2vec_size_key] = [new_conf[SessionConfigBuilderCustom1.word2vec_size_key][0]]
+                        w2v_model_sizes = copy.deepcopy(conf_w2v_model_sizes)
+                        w2v_model_size = w2v_model_sizes.pop(idx)
+                        new_conf[SessionConfigBuilderCustom1.word2vec_size_key] = [w2v_model_size]
                         new_configs.append(new_conf)
                         idx = idx + 1
             else:
@@ -612,22 +564,17 @@ class SessionConfigBuilderCustom1:
                 idx = 0
                 while idx < len(conf_vectorizers):
                     new_conf = copy.deepcopy(conf)
-                    if idx > 0:
-                        vectorizers = copy.deepcopy(conf_vectorizers)
-                        vectorizer = vectorizers.pop(idx)
-                        new_conf[SessionConfigBuilderCustom1.vectorizer_key] = [vectorizer]
+                    vectorizers = copy.deepcopy(conf_vectorizers)
+                    vectorizer = vectorizers.pop(idx)
+                    new_conf[SessionConfigBuilderCustom1.vectorizer_key] = [vectorizer]
 
-                        if SessionConfigBuilderCustom1.vec_model_id_key in conf:
-                            vectorizer_model_ids = copy.deepcopy(conf[SessionConfigBuilderCustom1.vec_model_id_key])
-                            if len(vectorizer_model_ids) > idx:
-                                vectorizer_model_id = vectorizer_model_ids.pop(idx)
-                            else:
-                                vectorizer_model_id = vectorizer_model_ids.pop(0)
-                            new_conf[SessionConfigBuilderCustom1.vec_model_id_key] = [vectorizer_model_id]
-                    else:
-                        new_conf[SessionConfigBuilderCustom1.vectorizer_key] = [new_conf[SessionConfigBuilderCustom1.vectorizer_key][0]]
-                        if SessionConfigBuilderCustom1.vec_model_id_key in conf:
-                            new_conf[SessionConfigBuilderCustom1.vec_model_id_key] = [new_conf[SessionConfigBuilderCustom1.vec_model_id_key][0]]
+                    if SessionConfigBuilderCustom1.vec_model_id_key in conf:
+                        vectorizer_model_ids = copy.deepcopy(conf[SessionConfigBuilderCustom1.vec_model_id_key])
+                        if len(vectorizer_model_ids) > idx:
+                            vectorizer_model_id = vectorizer_model_ids.pop(idx)
+                        else:
+                            vectorizer_model_id = vectorizer_model_ids.pop(0)
+                        new_conf[SessionConfigBuilderCustom1.vec_model_id_key] = [vectorizer_model_id]
                     new_configs.append(new_conf)
                     idx = idx + 1
             else:
@@ -649,32 +596,25 @@ class SessionConfigBuilderCustom1:
                 idx = 0
                 while idx < len(conf_stopword_removers):
                     new_conf = copy.deepcopy(conf)
-                    if idx > 0:
-                        stopword_removers = copy.deepcopy(conf_stopword_removers)
-                        stopword_remover = stopword_removers.pop(idx)
-                        new_conf[SessionConfigBuilderCustom1.stopword_remover_key] = [stopword_remover]
+                    stopword_removers = copy.deepcopy(conf_stopword_removers)
+                    stopword_remover = stopword_removers.pop(idx)
+                    new_conf[SessionConfigBuilderCustom1.stopword_remover_key] = [stopword_remover]
 
-                        if SessionConfigBuilderCustom1.stopwords_identifier_key in conf:
-                            stopwords_ids = copy.deepcopy(conf[SessionConfigBuilderCustom1.stopwords_identifier_key])
-                            if len(stopwords_ids) > idx:
-                                stopwords_id = stopwords_ids.pop(idx)
-                            else:
-                                stopwords_id = stopwords_ids.pop(0)
-                            new_conf[SessionConfigBuilderCustom1.stopwords_identifier_key] = [stopwords_id]
+                    if SessionConfigBuilderCustom1.stopwords_identifier_key in conf:
+                        stopwords_ids = copy.deepcopy(conf[SessionConfigBuilderCustom1.stopwords_identifier_key])
+                        if len(stopwords_ids) > idx:
+                            stopwords_id = stopwords_ids.pop(idx)
+                        else:
+                            stopwords_id = stopwords_ids.pop(0)
+                        new_conf[SessionConfigBuilderCustom1.stopwords_identifier_key] = [stopwords_id]
 
-                        if SessionConfigBuilderCustom1.additional_stopwords_key in conf:
-                            additional_stopwords_list = copy.deepcopy(conf[SessionConfigBuilderCustom1.additional_stopwords_key])
-                            if len(additional_stopwords_list) > idx:
-                                additional_stopwords = additional_stopwords_list.pop(idx)
-                            else:
-                                additional_stopwords = additional_stopwords_list.pop(0)
-                            new_conf[SessionConfigBuilderCustom1.additional_stopwords_key] = [additional_stopwords]
-                    else:
-                        new_conf[SessionConfigBuilderCustom1.stopword_remover_key] = [new_conf[SessionConfigBuilderCustom1.stopword_remover_key][0]]
-                        if SessionConfigBuilderCustom1.stopwords_identifier_key in new_conf:
-                            new_conf[SessionConfigBuilderCustom1.stopwords_identifier_key] = [new_conf[SessionConfigBuilderCustom1.stopwords_identifier_key][0]]
-                        if SessionConfigBuilderCustom1.additional_stopwords_key in new_conf:
-                            new_conf[SessionConfigBuilderCustom1.additional_stopwords_key] = [new_conf[SessionConfigBuilderCustom1.additional_stopwords_key][0]]
+                    if SessionConfigBuilderCustom1.additional_stopwords_key in conf:
+                        additional_stopwords_list = copy.deepcopy(conf[SessionConfigBuilderCustom1.additional_stopwords_key])
+                        if len(additional_stopwords_list) > idx:
+                            additional_stopwords = additional_stopwords_list.pop(idx)
+                        else:
+                            additional_stopwords = additional_stopwords_list.pop(0)
+                        new_conf[SessionConfigBuilderCustom1.additional_stopwords_key] = [additional_stopwords]
                     new_configs.append(new_conf)
                     idx = idx + 1
             else:
@@ -698,28 +638,23 @@ class SessionConfigBuilderCustom1:
                 idx = 0
                 while idx < len(conf_corpus_importers):
                     new_conf = copy.deepcopy(conf)
-                    if idx > 0:
-                        corpus_importers = copy.deepcopy(conf_corpus_importers)
-                        importer = corpus_importers.pop(idx)
-                        new_conf[SessionConfigBuilderCustom1.corpus_importer_key] = [importer]
+                    corpus_importers = copy.deepcopy(conf_corpus_importers)
+                    importer = corpus_importers.pop(idx)
+                    new_conf[SessionConfigBuilderCustom1.corpus_importer_key] = [importer]
 
-                        corpus_ids = copy.deepcopy(conf[SessionConfigBuilderCustom1.corpus_identifier_key])
-                        if len(corpus_ids) > idx:
-                            corpus_id = corpus_ids.pop(idx)
-                        else:
-                            corpus_id = corpus_ids.pop(0)
-                        new_conf[SessionConfigBuilderCustom1.corpus_identifier_key] = [corpus_id]
-
-                        categories_ids = copy.deepcopy(conf[SessionConfigBuilderCustom1.categories_identifier_key])
-                        if len(categories_ids) > idx:
-                            categories_id = categories_ids.pop(idx)
-                        else:
-                            categories_id = categories_ids.pop(0)
-                        new_conf[SessionConfigBuilderCustom1.categories_identifier_key] = [categories_id]
+                    corpus_ids = copy.deepcopy(conf[SessionConfigBuilderCustom1.corpus_identifier_key])
+                    if len(corpus_ids) > idx:
+                        corpus_id = corpus_ids.pop(idx)
                     else:
-                        new_conf[SessionConfigBuilderCustom1.corpus_importer_key] = [new_conf[SessionConfigBuilderCustom1.corpus_importer_key][0]]
-                        new_conf[SessionConfigBuilderCustom1.corpus_identifier_key] = [new_conf[SessionConfigBuilderCustom1.corpus_identifier_key][0]]
-                        new_conf[SessionConfigBuilderCustom1.categories_identifier_key] = [new_conf[SessionConfigBuilderCustom1.categories_identifier_key][0]]
+                        corpus_id = corpus_ids.pop(0)
+                    new_conf[SessionConfigBuilderCustom1.corpus_identifier_key] = [corpus_id]
+
+                    categories_ids = copy.deepcopy(conf[SessionConfigBuilderCustom1.categories_identifier_key])
+                    if len(categories_ids) > idx:
+                        categories_id = categories_ids.pop(idx)
+                    else:
+                        categories_id = categories_ids.pop(0)
+                    new_conf[SessionConfigBuilderCustom1.categories_identifier_key] = [categories_id]
                     new_configs.append(new_conf)
                     idx = idx + 1
             else:

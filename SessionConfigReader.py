@@ -73,17 +73,20 @@ class SessionConfigReader:
         if db_type == SessionConfigReader.db_type_fs:
             DiskStorageSessionConfigReader.set_config(session_id, config_id, json_f)
 
+    # optionally expects a session id and a config id
     # returns the session's config as json
     @staticmethod
-    def get_config():
+    def get_config(session_id=None, config_id=None):
         conf_keys = list()
         conf_keys.append(SessionConfigReader.database_type_key)
         conf_keys.append(SessionConfigReader.config_id_key)
         conf_keys.append(SessionConfigReader.session_id_key)
         conf_values = ConfigReader.read_values(conf_keys)
         db_type = conf_values[0]
-        config_id = conf_values[1]
-        session_id = conf_values[2]
+        if config_id is None:
+            config_id = conf_values[1]
+        if session_id is None:
+            session_id = conf_values[2]
         if db_type == SessionConfigReader.db_type_fs:
             return DiskStorageSessionConfigReader.get_config(session_id, config_id)
         else:
