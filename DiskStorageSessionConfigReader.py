@@ -15,7 +15,7 @@ class DiskStorageSessionConfigReader:
     @staticmethod
     def get_config_path(session_id, config_id, create_sub_dirs=0, root_path=None):
         if config_id == DiskStorageSessionConfigReader.best_performing:
-            return DiskStorageSessionConfigReader.best_performing_f_name
+            return os.path.join(DiskStorageSessionConfigReader.best_performing_f_name, DiskStorageSessionConfigReader.json_ext)
         else:
             sessions_path = DiskStorageSessionConfigReader.sessions_dir
             session_path = os.path.join(sessions_path, session_id)
