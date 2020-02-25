@@ -1,4 +1,4 @@
-name: base
+name: taxonomy_service
 channels:
   - defaults
 dependencies:
